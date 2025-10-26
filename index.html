@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Application - Inti Water</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            background: #f5f5f5;
+        }
+
+        .form-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 8px solid #035ab1f1;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .header-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #0099cc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .droplet {
+            width: 40px;
+            height: 50px;
+            background: #0099cc;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+        }
+
+        .droplet::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 25px;
+            background: white;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            /* color: #003366; */
+        }
+
+        .company-name span {
+            color: #0099cc;
+        }
+
+        .tagline {
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 1px;
+        }
+
+        .contact-info {
+            font-size: 11px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .form-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .date-amount-inputs {
+            text-align: center;
+        }
+
+        .date-amount-inputs input {
+            border: 2px solid #333;
+            padding: 5px 10px;
+            font-size: 11px;
+            margin: 0 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 24px;
+            border: 1px solid #000;
+            border-radius: 15px; 
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(to left, blue,rgb(49, 90, 155));
+            color: white;
+            padding: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #000;
+            border-width: 1px;
+            padding: 2px;
+            vertical-align: top;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 2px;
+            padding: 2px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            padding: 2px 0;
+            border-radius: 4px;
+        }
+
+        .checkbox-section {
+            display: flex;
+            gap: 17px;
+            font-size: larger;
+            padding-left: 20px;
+            align-items: center;
+        }
+
+        .checkbox-section label {
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .disclaimer {
+            font-size: 8px;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #0099cc;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .agreement-section {
+            background: #0099cc;
+            color: white;
+            padding: 8px;
+            font-size: 7px;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+
+        .signature-cell {
+            height: 100%;
+            position: relative;
+        }
+
+        .signature-label {
+            position: absolute;
+            bottom: 5px;
+            left: 8px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #333;
+        }
+        canvas {
+            border-radius: 8px;
+            background: #fff;
+            display: block;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .form-container {
+                border-width: 4px;
+            }
+        }
+    @media (max-width: 1024px) {
+      .form-container {
+        border-width: 6px;
+      }
+      .form-title {
+        font-size: 24px;
+      }
+      input[type="text"] {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 15px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .form-title {
+        font-size: 22px;
+      }
+
+      td {
+        font-size: 11px;
+      }
+
+      #savePdf {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-title {
+        font-size: 18px;
+      }
+
+      input[type="text"] {
+        font-size: 10px;
+      }
+
+      .section-header {
+        font-size: 12px;
+      }
+
+      td {
+        padding: 4px;
+        flex-direction: column;
+      }
+
+      canvas {
+        height: 80px;
+      }
+    }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <table class="header-table" style="position: relative; border: none; margin-bottom: 10px; border-radius: 10px; " >
+            <tr>
+                <td style="border: none; width: 30%; padding: 15px; ">
+                    <img src="images//MainLogo.PNG" alt="" >
+                </td>
+                <td style="border: none; width: fit; height: 60%; margin-top: 90px; text-align: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                    <div class="form-title">Credit Application /<br>Aplicación de Crédito</div>
+                </td>
+                <td style="border: none; width: 30%; text-align: right; ">
+                   <div style="display: flex; justify-content: end; line-height: 10px; height:100px; margin-top: 60px; margin-bottom: 40px;">
+                        <img src="images/logo.png"  alt="" width="300px" height="150px">
+                   </div>
+                   <div style="width: 450px; position: absolute; right:10px;" >
+                       <table>
+                           <tr >
+                               <td colspan="2" style="text-align: start; height: 10px;" >
+                                   <span class="field-label">Date /Fecha</span>
+                                   <input type="text" style="width: 100%; padding: 2px;" >
+                               </td>
+                               <td colspan="2" style="text-align: start;" >
+                                   <span class="field-label">Amount to Finance / Monto a Financiar</span>
+                                   <input type="text" style="width: 100%; height: 100%;" >
+                               </td>
+                           </tr>
+                       </table>
+
+                   </div>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td colspan="4" class="section-header">Applicant / Aplicante</td>
+                <td colspan="4" class="section-header">Co-Applicant / Co-Aplicante</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label">First Name / Nombre</span>
+                    <input type="text" style="width: 100%; height: 100%; padding: 2px;">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Last Name / Apellido</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">First Name / Nombre</span>
+                    <input type="text">
+                </td>
+                <td colspan="2" >
+                    <span class="field-label">Last Name / Apellido</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label">Social Security # / Nro. Seguro Social</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Date of Birth / Fecha de Nacimiento</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">SSocial Security # / Nro. Seguro Social</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Date of Birth / Fecha de Nacimiento</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label"> Driver’s License # / ID #</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Expiration Date / Fecha de Expiración</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label"> Driver’s License # / ID #</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Expiration Date / Fecha de Expiración</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label">Phone / Teléfono</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Email</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Phone / Teléfono</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Email</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <span class="field-label">Address / Dirección</span>
+                    <input type="text">
+                </td>
+                <td colspan="4">
+                    <span class="field-label">Address / Dirección</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label"> City / Ciudad</span>
+                    <input type="text">
+                </td>
+                <td>
+                    <span class="field-label">State / Estado</span>
+                    <input type="text">
+                </td>
+                <td>
+                    <span class="field-label">Zip Code / Código Postal</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label"> City / Ciudad</span>
+                    <input type="text">
+                </td>
+                <td>
+                    <span class="field-label">State / Estado</span>
+                    <input type="text">
+                </td>
+                <td>
+                    <span class="field-label">Zip Code / Código Postal</span>
+                    <input type="text">
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td colspan="8" class="section-header">Mortgage Information / Información Hipotecaria</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label">Status / Estado</span>
+                    <div class="checkbox-section">
+                        <label><input type="checkbox" >Paid / <br>Pagada</label>
+                        <label><input type="checkbox">Mortgaged / <br>Financiada</label>
+                        <label><input type="checkbox">Rent / <br>Alquiler</label>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Mortgage Company / Financiera</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Monthly Payment / Pago Mensual</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Remaining Time / Tiempo Restante</span>
+                    <input type="text">
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td colspan="6" class="section-header"> Income Information / Información de Ingresos</td>
+                <td colspan="6" class="section-header"> Income Information / Información de Ingresos</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="field-label">Employer / Empleador</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label"> Years / Años</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Income / Ingreso</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Employer / Empleador</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label"> Years / Años</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Income / Ingreso</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <span class="field-label">Ocupation / Cargo</span>
+                    <input type="text">
+                </td>
+                <td colspan="3">
+                    <span class="field-label">Business Phone / Teléfono de Trabajo</span>
+                    <input type="text">
+                </td>
+                <td colspan="3">
+                    <span class="field-label">Ocupation / Cargo</span>
+                    <input type="text">
+                </td>
+                <td colspan="3">
+                    <span class="field-label">Business Phone / Teléfono de Trabajo</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <span class="field-label"> Address / Direcciónn</span>
+                    <input type="text">
+                </td>
+                <td colspan="6">
+                    <span class="field-label"> Address / Dirección</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <span class="field-label">City / Ciudad</span>
+                    <input type="text">
+                </td>
+                <td>
+                    <span class="field-label">State / Estado</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Zip Code / Código Postal</span>
+                    <input type="text">
+                </td>
+                <td colspan="3">
+                    <span class="field-label">City / Ciudad</span>
+                    <input type="text">
+                </td>
+                <td>
+                    <span class="field-label">State / Estado</span>
+                    <input type="text">
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Zip Code / Código Postal</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <span class="field-label">Other source of income / Otros Ingresos</span>
+                    <input type="text">
+                </td>
+                <td colspan="6">
+                    <span class="field-label">Other source of income / Otros Ingresos</span>
+                    <input type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12" style="font-size: 10px; padding: 7px;">
+                    <p>
+                        Alimony or child support are optional information and does not need to be disclosed if you do not wish for that income to be considered in the credit application.
+                        Pensión alimenticia o manutanción de menores son información opcional y no necesita ser revelada si usted no desea que se cuente ese ingreso en la solicitud de crédito.
+                    </p>
+                        
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr >
+                <td colspan="12" style="font-size: 8px; padding: 5px; background:linear-gradient(to right, rgba(0, 0, 255, 0.833),lightblue); color: white;">
+                    By signing the document, the applicant gives consent to the company to collect and verify personal and financial information, including credit reports, for the purpose of assessing eligibility for a service or loan. The applicant allows the company to share this information with 
+                    authorized third parties, such as credit agencies, to complete the verification process. The applicant confirms that the information provided is accurate and understands that false information could lead to rejection of the application.
+                    Al firmar este documento, el solicitante da su consentimiento para que la empresa recoja y verifique información personal y financiera, incluidos los informes de crédito, con el propósito de evaluar la elegibilidad para un servicio o préstamo. El solicitante autoriza a la empresa 
+                    a compartir esta información con terceros autorizados, como agencias de crédito, para completar el proceso de verificación. El solicitante confirma que la información proporcionada es precisa y entiende que la información falsa podría resultar en el rechazo de la solicitud.
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="signature-cell" ">
+                  <canvas id="signature1" width="340" height="100" 
+                    style="border-radius:8px; background:#fff; width:100%; height:100px;"></canvas>
+                </td>
+              
+                <td colspan="4" class="signature-cell">
+                  <canvas id="signature2" width="340" height="100" 
+                    style=" border-radius:8px; background:#fff; width:100%; height:100px;"></canvas>
+                </td>
+              
+                <td colspan="4" class="signature-cell">
+                  <canvas id="signature3" width="340" height="100" 
+                    style="border-radius:8px; background:#fff; width:100%; height:100px;"></canvas>
+                </td>
+              </tr>
+              
+            <tr>
+                <td colspan="4" style="padding-left: 4px;">
+                    <span style="font-size: smaller;">Applicant Signature / Firma del Aplicante</span>
+                    <div style="display: flex; padding-top: 10px; ">
+                        <span class="field-label" style="width: 120px; font-size: small;">Date / Fecha</span>
+                        <input type="text" >
+                    </div>
+                    
+                </td>
+                <td colspan="4">
+                    <span style="font-size: smaller;">Co-Applicant Signature / Firma del Co-Aplicante</span>
+                    <div style="display: flex; padding-top: 10px;">
+                    <span class="field-label" style="width: 120px; font-size: small;">Date / Fecha</span>
+                    <input type="text" style="width: 100%;">
+                    </div>
+                </td>
+                <td colspan="4" style=" width: 30%;">
+                    <span style="font-size: 12px;" >Representative Signature / Firma del Representante</span>
+                    <div style="display: flex;padding-top: 10px; ">
+                    <span class="field-label" style="width: 200px; font-size: small;">Name / Nombre</span>
+                    <input type="text" style="width: 100%;">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div style="text-align:center; margin-top:15px;">
+            <button id="savePdf" style="background:#0099cc; color:white; padding:8px 16px; border:none; border-radius:5px; cursor:pointer; ">Save as PDF</button>
+          </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    function enableSignature(id) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+
+  function getPosition(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left-20,
+      y: e.clientY - rect.top
+    };
+  }
+
+  canvas.addEventListener('mousedown', e => {
+    drawing = true;
+    const pos = getPosition(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  });
+
+  canvas.addEventListener('mouseup', () => {
+    drawing = false;
+    ctx.beginPath();
+  });
+
+  canvas.addEventListener('mousemove', e => {
+    if (!drawing) return;
+    const pos = getPosition(e);
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  });
+
+  return ctx;
+}
+
+
+    const ctx1 = enableSignature('signature1');
+    const ctx2 = enableSignature('signature2');
+    const ctx3 = enableSignature('signature3');
+  
+
+    document.getElementById('savePdf').addEventListener('click', async () => {
+      const formContainer = document.querySelector('.form-container');
+  
+      const allInputs = document.querySelectorAll('input, textarea, select');
+      let formData = {};
+      allInputs.forEach(input => {
+        const key = input.name || input.id || 'unnamed';
+        formData[key] = input.value;
+      });
+  
+      await new Promise(r => setTimeout(r, 300));
+  
+      // Step 3️⃣: Capture form (with signatures)
+      const canvasImage = await html2canvas(formContainer, { scale: 2 });
+      const imgData = canvasImage.toDataURL('image/png');
+  
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'pt', 'a4');
+      const imgWidth = 595;
+      const pageHeight = 842;
+      const imgHeight = canvasImage.height * imgWidth / canvasImage.width;
+  
+      // Add image of form
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+  
+      // Step 4️⃣: Add new page for text data
+      pdf.addPage();
+      pdf.setFontSize(14);
+      pdf.text("🧾 Form Data Summary", 40, 40);
+      pdf.setFontSize(12);
+  
+      let y = 70;
+      for (const [key, value] of Object.entries(formData)) {
+        pdf.text(`${key}: ${value || " "}`, 40, y);
+        y += 20;
+        if (y > 780) { // add new page if data exceeds A4
+          pdf.addPage();
+          y = 40;
+        }
+      }
+  
+      // Step 5️⃣: Save final PDF
+      pdf.save('Credit_Application.pdf');
+    });
+  </script>
+  
+  
+</body>
+</html>
