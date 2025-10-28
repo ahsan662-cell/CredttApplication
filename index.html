@@ -273,16 +273,16 @@
 
         }
         .form-container1 {
-            display: block;
+           display: block;
             max-width: 100%;
             margin: 0 auto;
             background: white;
             border: 5px solid #035ab1f1;
             padding: 15px;
             border-radius: 5px;
-            overflow: hidden;
-            overscroll-behavior: contain;
-            touch-action: none;
+            overflow-y: auto;  
+            overscroll-behavior: auto;  
+            touch-action: pan-y;   
         }
 
         /* Header Section */
@@ -324,7 +324,6 @@
         .field-group {
             margin-bottom: 15px;
             width: 100%;
-            /* border: 1px solid black; */
         }
 
         .field-label {
@@ -411,7 +410,6 @@
             width: 100%;
             height: 120px;
             display: block;
-            /* touch-action: none !important; */
             -ms-touch-action: none !important;
             user-select: none;
             position: relative;
