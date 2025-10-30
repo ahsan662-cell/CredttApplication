@@ -1534,7 +1534,7 @@ async function handleSubmit() {
       method: "POST",
       body: formData,
     });
-
+    console.log(response);
     const result = await response.json();
     if (result.success) {
       alert("Form submitted successfully!");
