@@ -1,3 +1,5 @@
+<!-- latest wali -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,7 +71,6 @@
             font-size: 24px;
             font-weight: bold;
             letter-spacing: 3px;
-            /* color: #003366; */
         }
 
         .company-name span {
@@ -142,7 +143,11 @@
             padding: 2px;
         }
 
-        input[type="text"] {
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="file"] {
             width: 100%;
             border: none;
             outline: none;
@@ -486,12 +491,12 @@
                     <table>
                         <tr >
                             <td colspan="2" style="text-align: start; height: 10px;" >
-                                <span class="field-label">Date /Fecha</span>
-                                <input type="text" style="width: 100%; padding: 2px;" >
+                                <span class="field-label">Date /Fecha <span style="color: red;">*</span></span>
+                                <input type="date" style="width: 100%; padding: 2px;" name="Date/Fecha1" class="Date/Fecha1" required >
                             </td>
                             <td colspan="2" style="text-align: start;" >
-                                <span class="field-label">Amount to Finance / Monto a Financiar</span>
-                                <input type="text" style="width: 100%; height: 100%;" >
+                                <span class="field-label">Amount to Finance / Monto a Financiar <span style="color: red;">*</span></span>
+                                <input type="text" style="width: 100%; height: 100%;" name="AmounttoFinance/MontoaFinanciar1" class="AmounttoFinance/MontoaFinanciar1" required>
                             </td>
                         </tr>
                     </table>
@@ -506,110 +511,110 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <span class="field-label">First Name / Nombre</span>
-                    <input type="text" style="width: 100%; height: 100%; padding: 2px;">
+                    <span class="field-label">First Name / Nombre <span style="color: red;">*</span></span>
+                    <input type="text" style="width: 100%; height: 100%; padding: 2px;" name="FirstName/Nombre1" class="FirstName/Nombre1" required>
                 </td>
                 <td colspan="2">
-                    <span class="field-label">Last Name / Apellido</span>
-                    <input type="text">
+                    <span class="field-label">Last Name / Apellido <span style="color: red;">*</span></span>
+                    <input type="text" name="LastName/Apellido1" class="LastName/Apellido1" required>
                 </td>
                 <td colspan="2">
-                    <span class="field-label">First Name / Nombre</span>
-                    <input type="text">
+                    <span class="field-label">First Name / Nombre </span>
+                    <input type="text" name="First Name/Nombre2" class="First Name/Nombre2">
                 </td>
                 <td colspan="2" >
-                    <span class="field-label">Last Name / Apellido</span>
-                    <input type="text">
+                    <span class="field-label">Last Name / Apellido </span>
+                    <input type="text" name="Last Name/Apellido2" class="Last Name/Apellido2">
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
+                    <span class="field-label">Social Security # / Nro. Seguro Social<span style="color: red;">*</span></span>
+                    <input type="text" name="SocialSecurity#/Nro.SeguroSocial1" class="SocialSecurity#/Nro.SeguroSocial1" required>
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Date of Birth / Fecha de Nacimiento <span style="color: red;">*</span></span>
+                    <input type="date" name="DateofBirth/FechadeNacimiento1" class="DateofBirth/FechadeNacimiento1" required>
+                </td>
+                <td colspan="2">
                     <span class="field-label">Social Security # / Nro. Seguro Social</span>
-                    <input type="text">
+                    <input type="text" name="SocialSecurity#/Nro.SeguroSocial2" class="SocialSecurity#/Nro.SeguroSocial2">
                 </td>
                 <td colspan="2">
                     <span class="field-label">Date of Birth / Fecha de Nacimiento</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Social Security # / Nro. Seguro Social</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Date of Birth / Fecha de Nacimiento</span>
-                    <input type="text">
+                    <input type="date" name="DateofBirth/FechadeNacimiento2" class="DateofBirth/FechadeNacimiento2">
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
+                    <span class="field-label"> Driver’s License # / ID # <span style="color: red;">*</span></span>
+                    <input type="text" name="Driver’sLicense#/ID#1" class="Driver’sLicense#/ID#1" required>
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Expiration Date / Fecha de Expiración <span style="color: red;">*</span></span>
+                    <input type="date" name="ExpirationDate/FechadeExpiración1" class="ExpirationDate/FechadeExpiración1" required>
+                </td>
+                <td colspan="2">
                     <span class="field-label"> Driver’s License # / ID #</span>
-                    <input type="text">
+                    <input type="text" name="Driver’sLicense#/ID#2" class="Driver’sLicense#/ID#2">
                 </td>
                 <td colspan="2">
                     <span class="field-label">Expiration Date / Fecha de Expiración</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label"> Driver’s License # / ID #</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Expiration Date / Fecha de Expiración</span>
-                    <input type="text">
+                    <input type="date" name="ExpirationDate/FechadeExpiración2" class="ExpirationDate/FechadeExpiración2">
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
+                    <span class="field-label">Phone / Teléfono <span style="color: red;">*</span></span>
+                    <input type="tel" name="Phone/Teléfono1" class="Phone/Teléfono1" required>
+                </td>
+                <td colspan="2">
+                    <span class="field-label">Email <span style="color: red;">*</span></span>
+                    <input type="email" name="Email1" class="Email1" required>
+                </td>
+                <td colspan="2">
                     <span class="field-label">Phone / Teléfono</span>
-                    <input type="text">
+                    <input type="tel" name="Phone/Teléfono2" class="Phone/Teléfono2">
                 </td>
                 <td colspan="2">
                     <span class="field-label">Email</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Phone / Teléfono</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Email</span>
-                    <input type="text">
+                    <input type="email" name="Email2" class="Email2">
                 </td>
             </tr>
             <tr>
                 <td colspan="4">
-                    <span class="field-label">Address / Dirección</span>
-                    <input type="text">
+                    <span class="field-label">Address / Dirección <span style="color: red;">*</span></span>
+                    <input type="text" name="Address/Dirección1" class="Address/Dirección1" required>
                 </td>
                 <td colspan="4">
                     <span class="field-label">Address / Dirección</span>
-                    <input type="text">
+                    <input type="text" name="Address/Dirección2" class="Address/Dirección2">
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <span class="field-label"> City / Ciudad</span>
-                    <input type="text">
+                    <span class="field-label"> City / Ciudad <span style="color: red;">*</span></span>
+                    <input type="text" name="City/Ciudad1" class="City/Ciudad1" required>
                 </td>
                 <td>
-                    <span class="field-label">State / Estado</span>
-                    <input type="text">
+                    <span class="field-label">State / Estado <span style="color: red;">*</span></span>
+                    <input type="text" name="State/Estado1" class="State/Estado1" required>
                 </td>
                 <td>
-                    <span class="field-label">Zip Code / Código Postal</span>
-                    <input type="text">
+                    <span class="field-label">Zip Code / Código Postal <span style="color: red;">*</span></span>
+                    <input type="text" name="ZipCode/CódigoPostal1" class="ZipCode/CódigoPostal1" required>
                 </td>
                 <td colspan="2">
                     <span class="field-label"> City / Ciudad</span>
-                    <input type="text">
+                    <input type="text" name="City/Ciudad2" class="City/Ciudad2">
                 </td>
                 <td>
                     <span class="field-label">State / Estado</span>
-                    <input type="text">
+                    <input type="text" name="State/Estado2" class="State/Estado2">
                 </td>
                 <td>
                     <span class="field-label">Zip Code / Código Postal</span>
-                    <input type="text">
+                    <input type="text" name="ZipCode/CódigoPostal2" class="ZipCode/CódigoPostal2">
                 </td>
             </tr>
         </table>
@@ -620,24 +625,24 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <span class="field-label">Status / Estado</span>
-                    <div class="checkbox-section">
-                        <label><input type="checkbox" >Paid / <br>Pagada</label>
-                        <label><input type="checkbox">Mortgaged / <br>Financiada</label>
-                        <label><input type="checkbox">Rent / <br>Alquiler</label>
+                    <span class="field-label">Status / Estado <span style="color: red;">*</span></span>
+                    <div class="checkbox-section" >
+                        <label><input type="checkbox" name="Paid/Pagada" class="Paid/Pagada">Paid / <br>Pagada</label>
+                        <label><input type="checkbox" name="Mortgaged/Financiada" id="Mortgaged/Financiada">Mortgaged / <br>Financiada</label>
+                        <label><input type="checkbox" name="Rent/Alquiler" class="Rent/Alquiler">Rent / <br>Alquiler</label>
                     </div>
                 </td>
                 <td colspan="2">
                     <span class="field-label">Mortgage Company / Financiera</span>
-                    <input type="text">
+                    <input type="text" name="MortgageCompany/Financiera" class="MortgageCompany/Financiera">
                 </td>
                 <td colspan="2">
-                    <span class="field-label">Monthly Payment / Pago Mensual</span>
-                    <input type="text">
+                    <span class="field-label">Monthly Payment / Pago Mensual <span style="color: red;">*</span></span>
+                    <input type="text" name="MonthlyPayment/PagoMensual" class="MonthlyPayment/PagoMensual" required>
                 </td>
                 <td colspan="2">
-                    <span class="field-label">Remaining Time / Tiempo Restante</span>
-                    <input type="text">
+                    <span class="field-label">Remaining Time / Tiempo Restante <span style="color: red;">*</span></span>
+                    <input type="text" name="RemainingTime/TiempoRestante" class="RemainingTime/TiempoRestante" required>
                 </td>
             </tr>
         </table>
@@ -649,92 +654,92 @@
             </tr>
             <tr>
                 <td colspan="2">
+                    <span class="field-label">Employer / Empleador <span style="color: red;">*</span></span>
+                    <input type="text" name="Employer/Empleador1" class="Employer/Empleador1" required>
+                </td>
+                <td colspan="2">
+                    <span class="field-label"> Years / Años <span style="color: red;">*</span></span>
+                    <input type="text" name="Years/Años1" class="Years/Años1" required>
+                </td>
+                <td colspan="2">
+                    <span class="field-label" >Income / Ingreso <span style="color: red;">*</span></span>
+                    <input type="text" name="Income/Ingreso1" class="Income/Ingreso1" required>
+                </td>
+                <td colspan="2">
                     <span class="field-label">Employer / Empleador</span>
-                    <input type="text">
+                    <input type="text" name="Employer/Empleador2" class="Employer/Empleador2">
                 </td>
                 <td colspan="2">
                     <span class="field-label"> Years / Años</span>
-                    <input type="text">
+                    <input type="text" name="Years/Años2" class="Years/Años2">
                 </td>
                 <td colspan="2">
                     <span class="field-label">Income / Ingreso</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Employer / Empleador</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label"> Years / Años</span>
-                    <input type="text">
-                </td>
-                <td colspan="2">
-                    <span class="field-label">Income / Ingreso</span>
-                    <input type="text">
+                    <input type="text" name="Income/Ingreso2" class="Income/Ingreso2">
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <span class="field-label">Ocupation / Cargo</span>
-                    <input type="text">
+                    <span class="field-label">Ocupation / Cargo <span style="color: red;">*</span></span>
+                    <input type="text" name="Ocupation/Cargo1" class="Ocupation/Cargo1" required>
                 </td>
                 <td colspan="3">
                     <span class="field-label">Business Phone / Teléfono de Trabajo</span>
-                    <input type="text">
+                    <input type="tel" name="BusinessPhone/TeléfonodeTrabajo1" class="BusinessPhone/TeléfonodeTrabajo1">
                 </td>
                 <td colspan="3">
                     <span class="field-label">Ocupation / Cargo</span>
-                    <input type="text">
+                    <input type="text" name="Ocupation/Cargo2" class="Ocupation/Cargo2">
                 </td>
                 <td colspan="3">
                     <span class="field-label">Business Phone / Teléfono de Trabajo</span>
-                    <input type="text">
+                    <input type="tel" name="BusinessPhone/TeléfonodeTrabajo1" class="BusinessPhone/TeléfonodeTrabajo1">
                 </td>
             </tr>
             <tr>
                 <td colspan="6">
                     <span class="field-label"> Address / Direcciónn</span>
-                    <input type="text">
+                    <input type="text" name="Address/Direcciónn3" class="Address/Direcciónn3">
                 </td>
                 <td colspan="6">
                     <span class="field-label"> Address / Dirección</span>
-                    <input type="text">
+                    <input type="text" name="Address/Direcciónn4" class="Address/Direcciónn4">
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <span class="field-label">City / Ciudad</span>
-                    <input type="text">
+                    <input type="text" name="City/Ciudad3" class="City/Ciudad3">
                 </td>
                 <td>
                     <span class="field-label">State / Estado</span>
-                    <input type="text">
+                    <input type="text" name="State/Estado3" class="State/Estado3">
                 </td>
                 <td colspan="2">
                     <span class="field-label">Zip Code / Código Postal</span>
-                    <input type="text">
+                    <input type="text" name="ZipCode/CódigoPostal3" class="ZipCode/CódigoPostal3">
                 </td>
                 <td colspan="3">
                     <span class="field-label">City / Ciudad</span>
-                    <input type="text">
+                    <input type="text" name="City/Ciudad4" class="City/Ciudad4">
                 </td>
                 <td>
                     <span class="field-label">State / Estado</span>
-                    <input type="text">
+                    <input type="text" name="State/Estado4" class="State/Estado4">
                 </td>
                 <td colspan="2">
                     <span class="field-label">Zip Code / Código Postal</span>
-                    <input type="text">
+                    <input type="text" name="ZipCode/CódigoPostal4" class="ZipCode/CódigoPostal4">
                 </td>
             </tr>
             <tr>
                 <td colspan="6">
                     <span class="field-label">Other source of income / Otros Ingresos</span>
-                    <input type="text">
+                    <input type="text" name="Othersourceofincome/OtrosIngresos1" class="Othersourceofincome/OtrosIngresos1">
                 </td>
                 <td colspan="6">
                     <span class="field-label">Other source of income / Otros Ingresos</span>
-                    <input type="text">
+                    <input type="text" name="Othersourceofincome/OtrosIngresos2" class="Othersourceofincome/OtrosIngresos2">
                 </td>
             </tr>
             <tr>
@@ -759,28 +764,28 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4" class="signature-cell" ">
-                  <canvas id="signature1" width="340" height="100" 
+                <td colspan="4" class="signature-cell" >
+                  <canvas class="signature1" width="340" height="100" 
                     style="border-radius:8px; background:#fff; width:100%; height:100px;"></canvas>
                 </td>
               
                 <td colspan="4" class="signature-cell">
-                  <canvas id="signature2" width="340" height="100" 
+                  <canvas class="signature2" width="340" height="100" 
                     style=" border-radius:8px; background:#fff; width:100%; height:100px;"></canvas>
                 </td>
               
                 <td colspan="4" class="signature-cell">
-                  <canvas id="signature3" width="340" height="100" 
+                  <canvas class="signature3" width="340" height="100" 
                     style="border-radius:8px; background:#fff; width:100%; height:100px;"></canvas>
                 </td>
               </tr>
               
             <tr>
                 <td colspan="4" style="padding-left: 4px;">
-                    <span style="font-size: smaller;">Applicant Signature / Firma del Aplicante</span>
+                    <span style="font-size: smaller;">Applicant Signature / Firma del Aplicante <span style="color: red;">*</span></span>
                     <div style="display: flex; padding-top: 10px; ">
-                        <span class="field-label" style="width: 120px; font-size: small;">Date / Fecha</span>
-                        <input type="text" >
+                        <span class="field-label" style="width: 120px; font-size: small;">Date / Fecha <span style="color: red;">*</span></span>
+                        <input type="date" name="Date/Fecha2" class="Date/Fecha2" required>
                     </div>
                     
                 </td>
@@ -788,14 +793,14 @@
                     <span style="font-size: smaller;">Co-Applicant Signature / Firma del Co-Aplicante</span>
                     <div style="display: flex; padding-top: 10px;">
                     <span class="field-label" style="width: 120px; font-size: small;">Date / Fecha</span>
-                    <input type="text" style="width: 100%;">
+                    <input type="date" name="Date/Fecha3" class="Date/Fecha3" style="width: 100%;">
                     </div>
                 </td>
                 <td colspan="4" style=" width: 30%;">
-                    <span style="font-size: 12px;" >Representative Signature / Firma del Representante</span>
+                    <span style="font-size: 12px;" >Representative Signature / Firma del Representante <span style="color: red;">*</span></span>
                     <div style="display: flex;padding-top: 10px; ">
-                    <span class="field-label" style="width: 200px; font-size: small;">Name / Nombre</span>
-                    <input type="text" style="width: 100%;">
+                    <span class="field-label" style="width: 200px; font-size: small;">Name / Nombre <span style="color: red;">*</span></span>
+                    <input type="text" name="Name/Nombre"  class="Name/Nombre" required style="width: 100%;">
                     </div>
                 </td>
             </tr>
@@ -824,78 +829,77 @@
             
             <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
                 <div class="field-group">
-                    <label class="field-label">Date / Fecha</label>
-                    <input type="date" width="full" >
+                    <label class="field-label">Date / Fecha <span style="color: red;">*</span></label>
+                    <input type="date" name="Date/Fecha1" class="Date/Fecha1" required >
                 </div>
                 <div class="field-group">
-                    <label class="field-label">Amount to Finance / Monto a Financiar</label>
-                    <input type="text" placeholder="Amount to Finance / Monto a Financiar">
+                    <label class="field-label">Amount to Finance / Monto a Financiar <span style="color: red;">*</span></label>
+                    <input type="text" style="width: 100%; height: 100%;" name="AmounttoFinance/MontoaFinanciar1" class="AmounttoFinance/MontoaFinanciar1" placeholder="Enter Amount to Finance / Monto a Financiar" required>
                 </div>
 
             </div>
         </div>
 
-        <!-- Applicant Section -->
         <div class="section-header">Applicant / Aplicante</div>
         
         <div class="field-group">
-            <label class="field-label">First Name / Nombre</label>
-            <input type="text">
+            <label class="field-label">First Name / Nombre <span style="color: red;">*</span></label>
+            <input type="text" name="FirstName/Nombre1" class="FirstName/Nombre1" placeholder="Enter First Name / Nombre" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Last Name / Apellido</label>
-            <input type="text">
+            <label class="field-label">Last Name / Apellido <span style="color: red;">*</span></label>
+            <input type="text" name="LastName/Apellido1" class="LastName/Apellido1" placeholder="Enter Last Name / Apellido" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Social Security # / Nro. Seguro Social</label>
-            <input type="text">
+            <label class="field-label">Social Security # / Nro. Seguro Social <span style="color: red;">*</span></label>
+            <input type="text" name="SocialSecurity#/Nro.SeguroSocial1" class="SocialSecurity#/Nro.SeguroSocial1" placeholder="Enter Social Security # / Nro. Seguro Social " required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Date of Birth / Fecha de Nacimiento</label>
-            <input type="date">
+            <label class="field-label">Date of Birth / Fecha de Nacimiento <span style="color: red;">*</span></label>
+           <input type="date" name="DateofBirth/FechadeNacimiento1" class="DateofBirth/FechadeNacimiento1" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Driver's License # / ID #</label>
-            <input type="text">
+            <label class="field-label">Driver's License # / ID # <span style="color: red;">*</span></label>
+            <input type="text" name="Driver’sLicense#/ID#1" class="Driver’sLicense#/ID#1" placeholder="Enter Driver's License # / ID # " required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Expiration Date / Fecha de Expiración</label>
-            <input type="date">
+            <label class="field-label">Expiration Date / Fecha de Expiración <span style="color: red;">*</span></label>
+            <input type="date" name="ExpirationDate/FechadeExpiración1" class="ExpirationDate/FechadeExpiración1" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Phone / Teléfono</label>
-            <input type="tel">
+            <label class="field-label">Phone / Teléfono <span style="color: red;">*</span></label>
+            <input type="tel" name="Phone/Teléfono1" class="Phone/Teléfono1" placeholder=" Enter Phone / Teléfono" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Email</label>
-            <input type="email">
+            <label class="field-label">Email <span style="color: red;">*</span></label>
+            <input type="email" name="Email1" class="Email1" placeholder="Enter Email" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Address / Dirección</label>
-            <input type="text">
+            <label class="field-label">Address / Dirección <span style="color: red;">*</span></label>
+            <input type="text" name="Address/Dirección1" class="Address/Dirección1" placeholder="Enter Address / Dirección" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">City / Ciudad</label>
-            <input type="text">
+            <label class="field-label">City / Ciudad <span style="color: red;">*</span></label>
+            <input type="text" name="City/Ciudad1" class="City/Ciudad1" placeholder="Enter City/Ciudad" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">State / Estado</label>
-            <input type="text">
+            <label class="field-label">State / Estado <span style="color: red;">*</span></label>
+            <input type="text" class="State/Estado1" name="State/Estado1" placeholder="Enter State / Estado" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Zip Code / Código Postal</label>
-            <input type="text">
+            <label class="field-label">Zip Code / Código Postal <span style="color: red;">*</span></label>
+            <input type="text" name="ZipCode/CódigoPostal1" class="ZipCode/CódigoPostal1" placeholder="Enter Zip Code / Código Postal" required>
         </div>
 
         <!-- Co-Applicant Section -->
@@ -903,72 +907,72 @@
         
         <div class="field-group">
             <label class="field-label">First Name / Nombre</label>
-            <input type="text">
+            <input type="text" name="FirstName/Nombre2" class="FirstName/Nombre2" placeholder="Enter First Name / Nombre">
         </div>
         
         <div class="field-group">
             <label class="field-label">Last Name / Apellido</label>
-            <input type="text">
+            <input type="text" name="LastName/Apellido2" class="LastName/Apellido2" placeholder="Enter Last Name / Apellido" >
         </div>
         
         <div class="field-group">
             <label class="field-label">Social Security # / Nro. Seguro Social</label>
-            <input type="text">
+             <input type="text" name="SocialSecurity#/Nro.SeguroSocial2" class="SocialSecurity#/Nro.SeguroSocial2" placeholder="Enter Social Security # / Nro. Seguro Social " >
         </div>
         
         <div class="field-group">
             <label class="field-label">Date of Birth / Fecha de Nacimiento</label>
-            <input type="date">
+            <input type="date" name="DateofBirth/FechadeNacimiento2" class="DateofBirth/FechadeNacimiento2" >
         </div>
         
         <div class="field-group">
             <label class="field-label">Driver's License # / ID #</label>
-            <input type="text">
+            <input type="text" name="Driver’sLicense#/ID#2" class="Driver’sLicense#/ID#2" placeholder="Enter Driver's License # / ID # ">
         </div>
         
         <div class="field-group">
             <label class="field-label">Expiration Date / Fecha de Expiración</label>
-            <input type="date">
+            <input type="date" name="ExpirationDate/FechadeExpiración2" class="ExpirationDate/FechadeExpiración2" >
         </div>
         
         <div class="field-group">
             <label class="field-label">Phone / Teléfono</label>
-            <input type="tel">
+            <input type="tel" name="Phone/Teléfono2" class="Phone/Teléfono2" placeholder=" Enter Phone / Teléfono">
         </div>
         
         <div class="field-group">
             <label class="field-label">Email</label>
-            <input type="email">
+            <input type="email" name="Email2" class="Email2" placeholder="Enter Email" >
         </div>
         
         <div class="field-group">
             <label class="field-label">Address / Dirección</label>
-            <input type="text">
+            <input type="text" name="Address/Dirección2" class="Address/Dirección2" placeholder="Enter Address / Dirección" >
         </div>
         
         <div class="field-group">
             <label class="field-label">City / Ciudad</label>
-            <input type="text">
+            <input type="text" name="City/Ciudad2" class="City/Ciudad2" placeholder="Enter City/Ciudad" >
         </div>
         
         <div class="field-group">
             <label class="field-label">State / Estado</label>
-            <input type="text">
+            <input type="text" class="State/Estado2" name="State/Estado2" placeholder="Enter State / Estado" >
         </div>
         
         <div class="field-group">
             <label class="field-label">Zip Code / Código Postal</label>
-            <input type="text">
+            <input type="text" name="ZipCode/CódigoPostal2" class="ZipCode/CódigoPostal2" placeholder="Enter Zip Code / Código Postal">
         </div>
-
-        <!-- Mortgage Information -->
+        
         <div class="section-header">Mortgage Information / Información Hipotecaria</div>
         
         <div class="field-group">
-            <label class="field-label">Status / Estado</label>
+            <label class="field-label">Status / Estado <span style="color: red;">*</span>
+            </label>
             <div class="checkbox-section">
                 <label>
-                    <input type="checkbox">
+                    <input type="checkbox" name="Paid/Pagada" class="">
                     <span>Paid / Pagada</span>
                 </label>
                 <label>
@@ -984,164 +988,163 @@
         
         <div class="field-group">
             <label class="field-label">Mortgage Company / Financiera</label>
-            <input type="text">
+            <input type="text" name="MortgageCompany/Financiera" class="MortgageCompany/Financiera" placeholder="Enter Mortgage Company / Financiera">
         </div>
         
         <div class="field-group">
-            <label class="field-label">Monthly Payment / Pago Mensual</label>
-            <input type="text">
+            <label class="field-label">Monthly Payment / Pago Mensual <span style="color: red;">*</span></label>
+            <input type="text" name="MonthlyPayment/PagoMansual" class="MonthlyPayment/PagoMansual" placeholder="Enter Monthly Payment / Pago Mensual" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Remaining Time / Tiempo Restante</label>
-            <input type="text">
+            <label class="field-label">Remaining Time / Tiempo Restante <span style="color: red;">*</span></label>
+            <input type="text" name="RemainingTime/TiempoRestante" class="RemainingTime/TiempoRestante" placeholder="Enter Remaining Time / Tiempo Restante" required>
         </div>
-
+        
         <!-- Income Information - Applicant -->
         <div class="section-header">Income Information / Información de Ingresos (Applicant)</div>
         
         <div class="field-group">
-            <label class="field-label">Employer / Empleador</label>
-            <input type="text">
+            <label class="field-label">Employer / Empleador <span style="color: red;">*</span></label>
+            <input type="text" name="Employer/Empleador1" class="Employer/Empleador1" placeholder="Enter Employer / Empleador" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Years / Años</label>
-            <input type="text">
+            <label class="field-label">Years / Años <span style="color: red;">*</span></label>
+            <input type="text" name="Years/Años1" class="Years/Años1" placeholder="Enter Years / Años" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Income / Ingreso</label>
-            <input type="text" name="Income / Ingreso" id="Income / Ingreso">
+            <label class="field-label">Income / Ingreso <span style="color: red;">*</span></label>
+            <input type="text" name="Income/Ingres1" class="Income/Ingreso1" placeholder="Enter Income / Ingreso" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Occupation / Cargo</label>
-            <input type="text" name="Occupation / Cargo" id="Occupation / Cargo">
+            <label class="field-label">Occupation / Cargo <span style="color: red;">*</span></label>
+            <input type="text" name="Occupation/Cargo1" class="Occupation/Cargo1" placeholder="Enter Occupation / Cargo" required>
         </div>
         
         <div class="field-group">
             <label class="field-label">Business Phone / Teléfono de Trabajo</label>
-            <input type="tel" name="Business Phone / Teléfono de Trabajo" id="Business Phone / Teléfono de Trabajo">
+            <input type="tel" name="BusinessPhone/TeléfonodeTrabajo1" class="BusinessPhone/TeléfonodeTrabajo1" placeholder="Enter Business Phone / Teléfono de Trabajo" required>
         </div>
         
         <div class="field-group">
             <label class="field-label">Address / Dirección</label>
-            <input type="text" name="Address / Dirección" id="Address / Dirección">
+            <input type="text" name="Address/Dirección3" class="Address/Dirección3" placeholder="Enter Address / Dirección">
         </div>
         
         <div class="field-group">
             <label class="field-label">City / Ciudad</label>
-            <input type="text" name="City / Ciudad" id="City / Ciudad">
+            <input type="text" name="City/Ciudad3" class="City/Ciudad3" placeholder="Enter City / Ciudad">
         </div>
         
         <div class="field-group">
             <label class="field-label">State / Estado</label>
-            <input type="text" name="State / Estado" id="State / Estado">
+            <input type="text" name="State/Estado3" class="State/Estado3" placeholder="Enter State / Estado">
         </div>
         
         <div class="field-group">
             <label class="field-label">Zip Code / Código Postal</label>
-            <input type="text" name="Zip Code / Código Postal" id="Zip Code / Código Postal">
+            <input type="text" name="ZipCode/CódigoPostal3" class="ZipCode/CódigoPostal3" placeholder="Enter Zip Code / Código Postal">
         </div>
         
         <div class="field-group">
             <label class="field-label">Other Source of Income / Otros Ingresos</label>
-            <input type="text" name="Other Source of Income / Otros Ingresos" id="Other Source of Income / Otros Ingresos">
+            <input type="text" name="OtherSourceofIncome/OtrosIngresos1" class="OtherSourceofIncome/OtrosIngresos" placeholder="Enter Other Source of Income / Otros Ingresos">
         </div>
-
+        
         <div class="section-header">Income Information / Información de Ingresos (Co-Applicant)</div>
         
         <div class="field-group">
             <label class="field-label">Employer / Empleador</label>
-            <input type="text" name="Employer / Empleador" id="Employer / Empleador">
+            <input type="text" name="Employer/Empleador2" class="Employer/Empleador2" placeholder="Enter Employer / Empleador">
         </div>
         
         <div class="field-group">
             <label class="field-label">Years / Años</label>
-            <input type="text" name="Years / Años" id="Years / Años">
+            <input type="text" name="Years/Años2" class="Years/Años2" placeholder="Enter Years / Años">
         </div>
         
         <div class="field-group">
             <label class="field-label">Income / Ingreso</label>
-            <input type="text" name="Income / Ingreso" id="Income / Ingreso">
+            <input type="text" name="Income/Ingreso2" class="Income/Ingreso2" placeholder="Enter Income / Ingreso">
         </div>
         
         <div class="field-group">
             <label class="field-label">Occupation / Cargo</label>
-            <input type="text" name="Occupation / Cargo" id="Occupation / Cargo">
+            <input type="text" name="Occupation/Cargo2" class="Occupation/Cargo2" placeholder="Enter Occupation / Cargo">
         </div>
         
         <div class="field-group">
             <label class="field-label">Business Phone / Teléfono de Trabajo</label>
-            <input type="tel" name="Business Phone / Teléfono de Trabajo" id="Business Phone / Teléfono de Trabajo">
+            <input type="tel" name="BusinessPhone/TeléfonodeTrabajo2" class="BusinessPhone/TeléfonodeTrabajo2" placeholder="Enter Business Phone / Teléfono de Trabajo">
         </div>
         
         <div class="field-group">
             <label class="field-label">Address / Dirección</label>
-            <input type="text" name="Address / Dirección" id="Address / Dirección">
+            <input type="text" name="Address/Dirección4" class="Address/Dirección4" placeholder="Enter Address / Dirección">
         </div>
         
         <div class="field-group">
             <label class="field-label">City / Ciudad</label>
-            <input type="text" name="City / Ciudad" id="City / Ciudad">
+            <input type="text" name="City/Ciudad4" class="City/Ciudad4" placeholder="Enter City / Ciudad">
         </div>
         
         <div class="field-group">
             <label class="field-label">State / Estado</label>
-            <input type="text" name="State / Estado" id="State / Estado">
+            <input type="text" name="State/Estado4" class="State/Estado4" placeholder="Enter State / Estado">
         </div>
         
         <div class="field-group">
             <label class="field-label">Zip Code / Código Postal</label>
-            <input type="text" name="Zip Code / Código Postal" id="Zip Code / Código Postal">
+            <input type="text" name="ZipCode/CódigoPostal4" class="ZipCode/CódigoPostal4" placeholder="Enter Zip Code / Código Postal ">
         </div>
         
         <div class="field-group">
             <label class="field-label">Other Source of Income / Otros Ingresos</label>
-            <input type="text" name="Other Source of Income / Otros Ingresos" id="Other Source of Income / Otros Ingresos">
+            <input type="text" name="OtherSourceofIncome/OtrosIngresos2" class="OtherSourceofIncome/OtrosIngresos2" placeholder="Enter Other Source of Income / Otros Ingresos">
         </div>
-
+        
         <!-- Disclaimer -->
         <div class="disclaimer">
             Alimony or child support are optional information and does not need to be disclosed if you do not wish for that income to be considered in the credit application.<br><br>
             Pensión alimenticia o manutención de menores son información opcional y no necesita ser revelada si usted no desea que se cuente ese ingreso en la solicitud de crédito.
         </div>
-
+        
         <!-- Consent Text -->
         <div class="consent-text">
             By signing the document, the applicant gives consent to the company to collect and verify personal and financial information, including credit reports, for the purpose of assessing eligibility for a service or loan. The applicant allows the company to share this information with authorized third parties, such as credit agencies, to complete the verification process. The applicant confirms that the information provided is accurate and understands that false information could lead to rejection of the application.<br><br>
             Al firmar este documento, el solicitante da su consentimiento para que la empresa recoja y verifique información personal y financiera, incluidos los informes de crédito, con el propósito de evaluar la elegibilidad para un servicio o préstamo. El solicitante autoriza a la empresa a compartir esta información con terceros autorizados, como agencias de crédito, para completar el proceso de verificación. El solicitante confirma que la información proporcionada es precisa y entiende que la información falsa podría resultar en el rechazo de la solicitud.
         </div>
-
+        
         <div class="signature-box">
-            <h4>Applicant Signature / Firma del Aplicante</h4>
-            <canvas id="signature1"></canvas>
+            <h4>Applicant Signature / Firma del Aplicante <span style="color: red;">*</span></h4>
+            <canvas class="signature1"></canvas>
             <div class="signature-date">
-                <label class="field-label">Date / Fecha</label>
-                <input type="date" name="Date / Fecha" id="Date / Fecha">
+                <label class="field-label">Date / Fecha <span style="color: red;">*</span></label>
+                <input type="date" name="Date/Fecha2" class="Date/Fecha2" required>
             </div>
         </div>
-
+        
         <div class="signature-box">
             <h4>Co-Applicant Signature / Firma del Co-Aplicante</h4>
-            <canvas id="signature2"></canvas>
+            <canvas class="signature2"></canvas>
             <div class="signature-date">
                 <label class="field-label">Date / Fecha</label>
-                <input type="date" name="Date/Fecha" id="Date / Fecha">
+                <input type="date" name="Date/Fecha3" class="Date/Fecha3">
             </div>
         </div>
-
+        
         <div class="signature-box">
-            <h4>Representative Signature / Firma del Representante</h4>
-            <canvas id="signature3"></canvas>
+            <h4>Representative Signature / Firma del Representante <span style="color: red;">*</span></h4>
+            <canvas class="signature3"></canvas>
             <div class="signature-date">
-                <label class="field-label">Name / Nombre</label>
-                <input type="text" name="Name / Nombre" id="Name / Nombre">
+                <label class="field-label">Name / Nombre <span style="color: red;">*</span></label>
+                <input type="text" name="Name/Nombre" id="Name/Nombre" placeholder="Name / Nombre" required>
             </div>
         </div>
-
-        <!-- Footer -->
+        
         <div class="footer">
             <div class="field-group">
                 <label for="files">Upload Files (max 3):</label>
@@ -1151,361 +1154,398 @@
             
             <button id="savePdf1">Send</button>
         </div>
+        </div>
     </div>
-<!-- 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-function enableSignature(id) {
-  const canvas = document.getElementById(id);
-  const ctx = canvas.getContext("2d");
-  let drawing = false;
-
-  function getPosition(e) {
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return { x: clientX - rect.left + 40, y: clientY - rect.top };
-  }
-
-  function startDrawing(e) {
-    drawing = true;
-    const pos = getPosition(e);
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    e.preventDefault();
-  }
-
-  function stopDrawing(e) {
-    drawing = false;
-    ctx.beginPath();
-    e.preventDefault();
-  }
-
-  function draw(e) {
-    if (!drawing) return;
-    const pos = getPosition(e);
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "#000";
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    e.preventDefault();
-  }
-
-  canvas.addEventListener("mousedown", startDrawing);
-  canvas.addEventListener("mouseup", stopDrawing);
-  canvas.addEventListener("mousemove", draw);
-
-  canvas.addEventListener("touchstart", startDrawing, { passive: true });
-  canvas.addEventListener("touchmove", (e) => {
-    if (drawing) {
-      e.preventDefault();
-      draw(e);
-    }
-  }, { passive: false });
-  canvas.addEventListener("touchend", stopDrawing, { passive: true });
-}
-
-enableSignature("signature1");
-enableSignature("signature2");
-enableSignature("signature3");
-
-const fileInput = document.getElementById("files");
-const fileError = document.getElementById("fileError");
-
-fileInput.addEventListener("change", () => {
-  if (fileInput.files.length > 3) {
-    fileError.textContent = "⚠️ You can only upload up to 3 files!";
-    fileInput.value = "";
-    setTimeout(() => (fileError.textContent = ""), 2000);
-  }
-});
-let btn;
-
-if (window.innerWidth <= 480) {
-  btn = document.getElementById("savePdf1");
-
-} else {
-  btn = document.getElementById("savePdf");
-}
-console.log(btn);
-btn.addEventListener("click", async () => {
-console.log("clicked");
- const formContainer = document.querySelector(".form-container") || document.querySelector(".form-container1");
- if (!formContainer) {
-    alert("Form not found!");
-    return;
-  } 
- const { jsPDF } = window.jspdf;
-
-  const canvas = await html2canvas(formContainer, {
-    scale: window.devicePixelRatio > 1 ? 1.2 : 1, 
-    scrollY: -window.scrollY,
-    windowWidth: document.documentElement.scrollWidth,
-    windowHeight: document.documentElement.scrollHeight,
-    allowTaint: true,
-    useCORS: true,
-  });
-
-  const imgData = canvas.toDataURL("image/jpeg", 0.6); // compression 0.6
-
-  const pdf = new jsPDF("p", "pt", "a4");
-  const imgWidth = 580; 
-  const pageHeight = 842;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
-  let heightLeft = imgHeight;
-  let position = 0;
-
-  pdf.addImage(imgData, "JPEG", 10, position, imgWidth, imgHeight, undefined, "FAST");
-  heightLeft -= pageHeight;
-
-  while (heightLeft > 0) {
-    position = heightLeft - imgHeight;
-    pdf.addPage();
-    pdf.addImage(imgData, "JPEG", 10, position, imgWidth, imgHeight, undefined, "FAST");
-    heightLeft -= pageHeight;
-  }
-
-  const pdfBlob = pdf.output("blob");
-  const formData = new FormData();
-  formData.append("formPdf", pdfBlob, "form.pdf");
-
-  const files = fileInput.files;
-  if (files) {
-    for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
-  }
-
-//   const imgData = canvas.toDataURL("image/jpeg", 0.7); // compression 0.7
-
-//   const pdf = new jsPDF("p", "pt", "a4");
-//   const pageWidth = pdf.internal.pageSize.getWidth();
-//   const pageHeight = pdf.internal.pageSize.getHeight();
-//   const imgWidth = pageWidth - 20;
-//   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-//   let heightLeft = imgHeight;
-//   let position = 10;
-
-//   pdf.addImage(imgData, "JPEG", 10, position, imgWidth, imgHeight);
-
- 
-//   while (heightLeft > pageHeight) {
-//     heightLeft -= pageHeight;
-//     position = heightLeft - imgHeight;
-//     pdf.addPage();
-//     pdf.addImage(imgData, "JPEG", 10, position, imgWidth, imgHeight);
-//   }
-
-//   const pdfBlob = pdf.output("blob");
-//   const formData = new FormData();
-//   formData.append("formPdf", pdfBlob, "form.pdf");
-
-//   const files = fileInput.files;
-//   if (files) {
-//     for (let i = 0; i < files.length; i++) {
-//       formData.append("files", files[i]);
-//     }
-//   }
-
-
-  const response = await fetch("http://localhost:3000/submit-form", {
-    method: "POST",
-    body: formData,
-  });
-
-  const result = await response.json();
-  if (result.success) {
-    alert("✅ Form (with signatures + files) sent successfully!");
-  } else {
-    alert("❌ Error sending form!");
-  }
-});
-</script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 <script>
 const { jsPDF } = window.jspdf;
 
-// ✏️ Enable Signature Drawing
-function enableSignature(id) {
-  const canvas = document.getElementById(id);
+let canvases = {
+  pc: [],
+  mobile: []
+};
+
+function enableSignature(canvas, isMobile = false) {
   if (!canvas) return;
+
   const ctx = canvas.getContext("2d");
   let drawing = false;
 
   function getPos(e) {
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return { x: clientX - rect.left, y: clientY - rect.top };
+    return {
+      x: (e.touches ? e.touches[0].clientX : e.clientX) - rect.left,
+      y: (e.touches ? e.touches[0].clientY : e.clientY) - rect.top
+    };
   }
 
-  canvas.addEventListener("mousedown", e => {
+  function startDrawing(e) {
+    e.preventDefault();
     drawing = true;
     const pos = getPos(e);
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
-  });
+  }
 
-  canvas.addEventListener("mouseup", () => {
-    drawing = false;
-    ctx.beginPath();
-  });
-
-  canvas.addEventListener("mousemove", e => {
-    if (!drawing) return;
-    const pos = getPos(e);
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "#000";
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-  });
-
-  // Touch events
-  canvas.addEventListener("touchstart", e => {
-    drawing = true;
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-  }, { passive: true });
-
-  canvas.addEventListener("touchend", () => {
-    drawing = false;
-    ctx.beginPath();
-  });
-
-  canvas.addEventListener("touchmove", e => {
+  function draw(e) {
     if (!drawing) return;
     e.preventDefault();
+    
     const pos = getPos(e);
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     ctx.strokeStyle = "#000";
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-  }, { passive: false });
+    
+    if (!canvas._syncTimeout) {
+      canvas._syncTimeout = setTimeout(() => {
+        syncCanvases();
+        canvas._syncTimeout = null;
+      }, 100);
+    }
+  }
+
+  function stopDrawing(e) {
+    e.preventDefault();
+    drawing = false;
+  }
+
+  canvas.addEventListener("mousedown", startDrawing);
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("mouseup", stopDrawing);
+  canvas.addEventListener("mouseout", stopDrawing);
+
+  canvas.addEventListener("touchstart", startDrawing, { passive: false });
+  canvas.addEventListener("touchmove", draw, { passive: false });
+  canvas.addEventListener("touchend", stopDrawing, { passive: false });
+
+  console.log(`✅ Canvas enabled (${isMobile ? 'Mobile' : 'PC'})`);
 }
 
-// Enable all signatures
-["signature1", "signature2", "signature3"].forEach(enableSignature);
+function syncCanvases() {
+  if (canvases.pc.length === 0 || canvases.mobile.length === 0) return;
 
+  canvases.pc.forEach((pcCanvas, index) => {
+    const mobileCanvas = canvases.mobile[index];
+    if (!mobileCanvas) return;
 
-// 🧩 Copy Mobile Form Data → PC Form
-function copyFormData(mobileForm, pcForm) {
-  if (!mobileForm || !pcForm) return;
-  const inputs = mobileForm.querySelectorAll("input, textarea, select");
-  inputs.forEach(inp => {
-    const name = inp.name || inp.id;
-    const target = pcForm.querySelector(`[name='${name}'], #${name}`);
-    if (target) target.value = inp.value;
-  });
-
-  const mobileCanvases = mobileForm.querySelectorAll("canvas");
-  const pcCanvases = pcForm.querySelectorAll("canvas");
-  mobileCanvases.forEach((c, i) => {
-    if (pcCanvases[i]) {
+    try {
+      const mobileImage = mobileCanvas.toDataURL();
       const img = new Image();
-      img.src = c.toDataURL();
       img.onload = () => {
-        const ctx = pcCanvases[i].getContext("2d");
-        ctx.clearRect(0, 0, pcCanvases[i].width, pcCanvases[i].height);
-        ctx.drawImage(img, 0, 0, pcCanvases[i].width, pcCanvases[i].height);
+        const pcCtx = pcCanvas.getContext("2d");
+        pcCtx.clearRect(0, 0, pcCanvas.width, pcCanvas.height);
+        pcCtx.drawImage(img, 0, 0, pcCanvas.width, pcCanvas.height);
       };
+      img.src = mobileImage;
+
+      const pcImage = pcCanvas.toDataURL();
+      const img2 = new Image();
+      img2.onload = () => {
+        const mobileCtx = mobileCanvas.getContext("2d");
+        mobileCtx.clearRect(0, 0, mobileCanvas.width, mobileCanvas.height);
+        mobileCtx.drawImage(img2, 0, 0, mobileCanvas.width, mobileCanvas.height);
+      };
+      img2.src = pcImage;
+    } catch (e) {
+      console.log("Sync error");
     }
   });
 }
 
+function initializeCanvases() {
+  const pcForm = document.querySelector(".form-container");
+  if (pcForm) {
+    canvases.pc = Array.from(pcForm.querySelectorAll("canvas"));
+    console.log(`PC canvases found: ${canvases.pc.length}`);
+    canvases.pc.forEach(canvas => enableSignature(canvas, false));
+  }
 
-async function handleSubmit() {
+  const mobileForm = document.querySelector(".form-container1");
+  if (mobileForm) {
+    canvases.mobile = Array.from(mobileForm.querySelectorAll("canvas"));
+    console.log(`Mobile canvases found: ${canvases.mobile.length}`);
+    canvases.mobile.forEach(canvas => enableSignature(canvas, true));
+  }
+
+  console.log("✅ All canvases initialized");
+}
+
+function setupFormSync() {
   const mobileForm = document.querySelector(".form-container1");
   const pcForm = document.querySelector(".form-container");
-  const fileInput = document.getElementById("files");
 
-  if (window.innerWidth <= 480 && mobileForm && pcForm) {
-    copyFormData(mobileForm, pcForm);
-  }
+  if (!mobileForm || !pcForm) return;
 
-  const formElement = pcForm;
-  if (!formElement) {
-    alert("Form not found!");
-    return;
-  }
+  const getFieldsMap = (form) => {
+    const fieldsMap = {};
+    const inputs = form.querySelectorAll("input[name], textarea[name], select[name]");
+    inputs.forEach(inp => {
+      const name = inp.name;
+      if (name) {
+        if (!fieldsMap[name]) fieldsMap[name] = [];
+        fieldsMap[name].push(inp);
+      }
+    });
+    return fieldsMap;
+  };
 
-  window.scrollTo(0, 0);
+  const mobileFields = getFieldsMap(mobileForm);
+  const pcFields = getFieldsMap(pcForm);
 
-  // Capture HTML → Canvas
-  const canvas = await html2canvas(formElement, {
-    scale: 1.5,       
-    useCORS: true,
-    allowTaint: true,
-    logging: false,
+  Object.keys(mobileFields).forEach(fieldName => {
+    mobileFields[fieldName].forEach(mobileInput => {
+      if (mobileInput.type === "checkbox") {
+        mobileInput.addEventListener("change", () => {
+          pcFields[fieldName]?.forEach(pcInput => {
+            if (pcInput.type === "checkbox") pcInput.checked = mobileInput.checked;
+          });
+        });
+      } else {
+        mobileInput.addEventListener("input", () => {
+          pcFields[fieldName]?.forEach(pcInput => {
+            pcInput.value = mobileInput.value;
+          });
+        });
+      }
+    });
   });
 
-  const imgData = canvas.toDataURL("image/jpeg", 0.7);
-  const pdf = new jsPDF("p", "pt", "a4");
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
+  Object.keys(pcFields).forEach(fieldName => {
+    pcFields[fieldName].forEach(pcInput => {
+      if (pcInput.type === "checkbox") {
+        pcInput.addEventListener("change", () => {
+          mobileFields[fieldName]?.forEach(mobileInput => {
+            if (mobileInput.type === "checkbox") mobileInput.checked = pcInput.checked;
+          });
+        });
+      } else {
+        pcInput.addEventListener("input", () => {
+          mobileFields[fieldName]?.forEach(mobileInput => {
+            mobileInput.value = pcInput.value;
+          });
+        });
+      }
+    });
+  });
 
-  const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+}
 
-  let position = 0;
-  let heightLeft = imgHeight;
+function finalSyncBeforePdf() {
+  const mobileForm = document.querySelector(".form-container1");
+  const pcForm = document.querySelector(".form-container");
 
-  pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, "", "FAST");
-  heightLeft -= pageHeight;
+  if (!mobileForm || !pcForm) return;
 
-  while (heightLeft > 0) {
-    position = heightLeft - imgHeight;
-    pdf.addPage();
-    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, "", "FAST");
-    heightLeft -= pageHeight;
+  const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
+  mobileInputs.forEach(mobileInput => {
+    const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
+    pcInputs.forEach(pcInput => {
+      if (mobileInput.type === "checkbox") {
+        pcInput.checked = mobileInput.checked;
+      } else if (mobileInput.type !== "radio") {
+        pcInput.value = mobileInput.value;
+      }
+    });
+  });
+
+  syncCanvases();
+
+}
+
+function validateRequiredFields() {
+  const pcForm = document.querySelector(".form-container");
+  const requiredFields = pcForm.querySelectorAll("input[required], textarea[required], select[required]");
+  
+  let emptyFields = [];
+  requiredFields.forEach(field => {
+    if (field.type === "checkbox") {
+      if (!field.checked) emptyFields.push(field.name);
+    } else if (!field.value || field.value.trim() === "") {
+      emptyFields.push(field.name);
+    }
+  });
+
+  const sig1Canvas = canvases.pc[0];
+  if (!sig1Canvas || sig1Canvas.toDataURL() === "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==") {
+    emptyFields.push("Applicant Signature (Required)");
   }
 
-  const pdfBlob = pdf.output("blob");
-  const formData = new FormData();
-  formData.append("formPdf", pdfBlob, "form.pdf");
+  const sig3Canvas = canvases.pc[2];
+  if (!sig3Canvas || sig3Canvas.toDataURL() === "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==") {
+    emptyFields.push("Representative Signature (Required)");
+  }
 
-  // Include file uploads
-  if (fileInput && fileInput.files.length > 0) {
-    for (let f of fileInput.files) formData.append("files", f);
+  if (emptyFields.length > 0) {
+    alert(`❌ Please fill required fields:\n\n${[...new Set(emptyFields)].join("\n")}`);
+    return false;
+  }
+  return true;
+}
+
+async function generatePDF() {
+  const pcForm = document.querySelector(".form-container");
+
+  if (!pcForm) {
+    alert("❌ Form not found!");
+    return null;
   }
 
   try {
-    const response = await fetch("https://vercel.com/ahsans-projects-422761d1/credtt-application-backend/submit-form", {
+    const originalDisplay = pcForm.style.display;
+    const originalVisibility = pcForm.style.visibility;
+    
+    pcForm.style.display = 'block';
+    pcForm.style.visibility = 'visible';
+    pcForm.style.position = 'absolute';
+    pcForm.style.left = '-9999px';
+    pcForm.style.top = '0';
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    const canvas = await html2canvas(pcForm, {
+      scale: 1.5,
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      backgroundColor: "#ffffff",
+      width: pcForm.scrollWidth,
+      height: pcForm.scrollHeight,
+      windowWidth: 1200,
+      windowHeight: pcForm.scrollHeight
+    });
+
+    pcForm.style.display = originalDisplay;
+    pcForm.style.visibility = originalVisibility;
+    pcForm.style.position = '';
+    pcForm.style.left = '';
+    pcForm.style.top = '';
+
+    if (!canvas || canvas.width === 0 || canvas.height === 0) {
+      throw new Error("Invalid canvas dimensions");
+    }
+
+    const imgData = canvas.toDataURL("image/jpeg", 0.75);
+    const pdf = new jsPDF("p", "pt", "a4");
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    if (!imgHeight || imgHeight <= 0 || !isFinite(imgHeight)) {
+      throw new Error("Invalid image dimensions calculated");
+    }
+
+    let position = 0;
+    let heightLeft = imgHeight;
+
+    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, "", "FAST");
+    heightLeft -= pageHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, "", "FAST");
+      heightLeft -= pageHeight;
+    }
+
+    return pdf;
+  } catch (err) {
+    console.error("PDF generation error:", err);
+    alert("⚠️ Error generating PDF: " + err.message);
+    return null;
+  }
+}
+
+async function handleSubmit() {
+  if (!validateRequiredFields()) {
+    return;
+  }
+
+  const pcForm = document.querySelector(".form-container");
+  const fileInput = document.getElementById("files");
+
+  if (window.innerWidth <= 480) {
+    finalSyncBeforePdf();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
+  const pdf = await generatePDF();
+  if (!pdf) return;
+
+  const pdfBlob = pdf.output("blob");
+
+  const pdfUrl = URL.createObjectURL(pdfBlob);
+  const printWindow = window.open(pdfUrl);
+  printWindow.onload = () => {
+    setTimeout(() => {
+      printWindow.print();
+    }, 250);
+  };
+
+  const formData = new FormData();
+  formData.append("formPdf", pdfBlob, "form.pdf");
+
+  if (fileInput?.files.length > 0) {
+    for (let f of fileInput.files) {
+      formData.append("files", f);
+    }
+  }
+
+  try {
+    const response = await fetch("https://credtt-application-backend.vercel.app/check-form", {
       method: "POST",
       body: formData,
       credentials: "include",
     });
+
     const result = await response.json();
-    if (result.success) alert("✅ Form (with signatures + files) sent successfully!");
-    else alert("❌ Error sending form!");
+    if (result.success) {
+      alert("✅ Form submitted successfully!");
+    } else {
+      alert("❌ Error: " + (result.message || "Unknown error"));
+    }
   } catch (err) {
-    alert("⚠️ Network Error: " + err.message);
+    console.error("Submit error:", err);
+    alert("⚠️ Error: " + err.message);
   }
+  
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 Initializing...");
+  
+  initializeCanvases();
+  setupFormSync();
+  
+  const pcBtn = document.getElementById("savePdf");
+  const mobileBtn = document.getElementById("savePdf1");
 
-// 📱 Detect Device and bind right button
-const submitBtn = window.innerWidth <= 480
-  ? document.getElementById("savePdf1")
-  : document.getElementById("savePdf");
+  if (pcBtn) pcBtn.addEventListener("click", handleSubmit);
+  if (mobileBtn) mobileBtn.addEventListener("click", handleSubmit);
 
-if (submitBtn) submitBtn.addEventListener("click", handleSubmit);
+});
+const fileInput = document.getElementById("files");
+if (fileInput) {
+  fileInput.addEventListener("change", () => {
+    const fileError = document.getElementById("fileError");
+    if (fileInput.files.length > 3) {
+      fileError.textContent = "⚠️ Max 3 files!";
+      fileInput.value = "";
+      setTimeout(() => {
+        fileError.textContent = "";
+      }, 2000);
+    }
+  });
+}
 </script>
-
 
 </body>
 </html>
