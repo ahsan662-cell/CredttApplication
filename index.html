@@ -994,7 +994,7 @@
         
         <div class="field-group">
             <label class="field-label">Monthly Payment / Pago Mensual <span style="color: red;">*</span></label>
-            <input type="text" name="MonthlyPayment/PagoMansual" class="MonthlyPayment/PagoMansual" placeholder="Enter Monthly Payment / Pago Mensual" required>
+            <input type="text" name="MonthlyPayment/PagoMensual" class="MonthlyPayment/PagoMensual" placeholder="Enter Monthly Payment / Pago Mensual" required>
         </div>
         
         <div class="field-group">
@@ -1017,12 +1017,12 @@
         
         <div class="field-group">
             <label class="field-label">Income / Ingreso <span style="color: red;">*</span></label>
-            <input type="text" name="Income/Ingres1" class="Income/Ingreso1" placeholder="Enter Income / Ingreso" required>
+            <input type="text" name="Income/Ingreso1" class="Income/Ingreso1" placeholder="Enter Income / Ingreso" required>
         </div>
         
         <div class="field-group">
-            <label class="field-label">Occupation / Cargo <span style="color: red;">*</span></label>
-            <input type="text" name="Occupation/Cargo1" class="Occupation/Cargo1" placeholder="Enter Occupation / Cargo" required>
+            <label class="field-label">Ocupation / Cargo <span style="color: red;">*</span></label>
+            <input type="text" name="Ocupation/Cargo1" class="Ocupation/Cargo1" placeholder="Enter Ocupation / Cargo" required>
         </div>
         
         <div class="field-group">
@@ -1073,8 +1073,8 @@
         </div>
         
         <div class="field-group">
-            <label class="field-label">Occupation / Cargo</label>
-            <input type="text" name="Occupation/Cargo2" class="Occupation/Cargo2" placeholder="Enter Occupation / Cargo">
+            <label class="field-label">Ocupation / Cargo</label>
+            <input type="text" name="Ocupation/Cargo2" class="Ocupation/Cargo2" placeholder="Enter Ocupation / Cargo">
         </div>
         
         <div class="field-group">
@@ -1408,7 +1408,6 @@ function validateRequiredFields() {
     }
   });
 
-  // Check signature canvases
   if (canvases.pc.length >= 1) {
     const sig1Canvas = canvases.pc[0];
     if (isCanvasEmpty(sig1Canvas)) {
@@ -1522,14 +1521,6 @@ async function handleSubmit() {
   if (!pdf) return;
 
   const pdfBlob = pdf.output("blob");
-
-  const pdfUrl = URL.createObjectURL(pdfBlob);
-  const printWindow = window.open(pdfUrl);
-  printWindow.onload = () => {
-    setTimeout(() => {
-      printWindow.print();
-    }, 250);
-  };
 
   const formData = new FormData();
   formData.append("formPdf", pdfBlob, "form.pdf");
