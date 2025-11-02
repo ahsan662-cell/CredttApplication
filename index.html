@@ -1498,7 +1498,6 @@ function validateRequiredFields() {
 async function generatePDF() {
   let formToUse = document.querySelector(".form-container");
   
-  // If PC form is hidden, try mobile form
   if (formToUse && formToUse.style.display === 'none') {
     formToUse = document.querySelector(".form-container1");
   }
@@ -1516,17 +1515,12 @@ async function generatePDF() {
   try {
     const originalDisplay = formToUse.style.display;
     const originalVisibility = formToUse.style.visibility;
-    const originalPosition = formToUse.style.position;
-    const originalLeft = formToUse.style.left;
-    const originalTop = formToUse.style.top;
     
-    // Show form off-screen for capturing
     formToUse.style.display = 'block';
     formToUse.style.visibility = 'visible';
-    formToUse.style.position = 'fixed';
+    formToUse.style.position = 'absolute';
     formToUse.style.left = '-9999px';
     formToUse.style.top = '0';
-    formToUse.style.width = '100%';
 
     await new Promise(resolve => setTimeout(resolve, 200));
 
@@ -1536,18 +1530,17 @@ async function generatePDF() {
       allowTaint: true,
       logging: false,
       backgroundColor: "#ffffff",
-      width: formToUse.scrollWidth || formToUse.clientWidth,
-      height: formToUse.scrollHeight || formToUse.clientHeight,
-      windowWidth: formToUse.scrollWidth || formToUse.clientWidth,
-      windowHeight: formToUse.scrollHeight || formToUse.clientHeight
+      width: formToUse.scrollWidth,
+      height: formToUse.scrollHeight,
+      windowWidth: 1200,
+      windowHeight: formToUse.scrollHeight 
     });
 
-    // Restore original styles
     formToUse.style.display = originalDisplay;
     formToUse.style.visibility = originalVisibility;
-    formToUse.style.position = originalPosition;
-    formToUse.style.left = originalLeft;
-    formToUse.style.top = originalTop;
+    formToUse.style.position = '';
+    formToUse.style.left = '';
+    formToUse.style.top = '';
     formToUse.style.width = '';
 
     if (!canvas || canvas.width === 0 || canvas.height === 0) {
@@ -1563,27 +1556,24 @@ async function generatePDF() {
     
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 2;
 
-    const imgWidth = pageWidth - (margin * 2);
+    const imgWidth = pageWidth;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     if (!imgHeight || imgHeight <= 0 || !isFinite(imgHeight)) {
       throw new Error("Invalid image dimensions calculated");
     }
 
-    let yPosition = margin;
+    let Position = 0;
     let heightRemaining = imgHeight;
 
-    // First page
-    pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight);
-    heightRemaining -= (pageHeight - margin);
+    pdf.addImage(imgData, "JPEG", 0, Position, imgWidth, imgHeight,"","FAST");
+    heightRemaining -= pageHeight;
 
-    // Additional pages
     while (heightRemaining > 0) {
       pdf.addPage();
-      yPosition = heightRemaining - imgHeight;
-      pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight);
+      Position = heightRemaining - imgHeight;
+      pdf.addImage(imgData, "JPEG", 0, Position, imgWidth, imgHeight,"","FAST");
       heightRemaining -= pageHeight;
     }
 
@@ -1611,7 +1601,6 @@ async function handleSubmit() {
   const emailInput = document.querySelector("input[name='Email1']");
 
   try {
-    // Sync data if on mobile
     if (window.innerWidth <= 480) {
       finalSyncBeforePdf();
       await new Promise(resolve => setTimeout(resolve, 500));
