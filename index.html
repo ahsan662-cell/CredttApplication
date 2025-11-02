@@ -1554,13 +1554,30 @@ async function handleSubmit() {
   const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
   const fileInput = document.getElementById("files");
 
+  // Show loading alert
+  Swal.fire({
+    icon: 'info',
+    title: 'Processing...',
+    text: 'Generating PDF and submitting...',
+    confirmButtonColor: '#3085d6',
+    allowOutsideClick: false,
+    didOpen: (modal) => {
+      modal.style.zIndex = '99999999';
+      document.querySelector('.swal2-container').style.zIndex = '99999999';
+      Swal.showLoading();
+    }
+  });
+
   if (isMobile) {
     finalSyncBeforePdf();
     await new Promise(resolve => setTimeout(resolve, 500));
   }
 
   const pdf = await generatePDF();
-  if (!pdf) return;
+  if (!pdf) {
+    Swal.close();
+    return;
+  }
 
   const pdfBlob = pdf.output("blob");
   const formData = new FormData();
@@ -1578,16 +1595,21 @@ async function handleSubmit() {
   }
 
   try {
+    console.log("Sending form data...");
     const response = await fetch("https://credtt-application-backend.vercel.app/submit-form", {
       method: "POST",
       body: formData,
     });
+
+    console.log("Response status:", response.status);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const result = await response.json();
+    console.log("Result:", result);
+
     if (result.success) {
       Swal.fire({
         icon: 'success',
