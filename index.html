@@ -1459,7 +1459,7 @@ function validateRequiredFields() {
 
 async function generatePDF() {
   const isMobile = window.innerWidth <= 480;
-  const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
+  const form = document.querySelector(".form-container");
 
   if (!form) {
     Swal.fire({
@@ -1554,7 +1554,6 @@ async function handleSubmit() {
   const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
   const fileInput = document.getElementById("files");
 
-  // Show loading alert
   Swal.fire({
     icon: 'info',
     title: 'Processing...',
