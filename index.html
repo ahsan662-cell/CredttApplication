@@ -899,7 +899,6 @@
             <input type="text" name="ZipCode/CódigoPostal1" class="ZipCode/CódigoPostal1" placeholder="Enter Zip Code / Código Postal" required>
         </div>
 
-        <!-- Co-Applicant Section -->
         <div class="section-header">Co-Applicant / Co-Aplicante</div>
         
         <div class="field-group">
@@ -998,7 +997,6 @@
             <input type="text" name="RemainingTime/TiempoRestante" class="RemainingTime/TiempoRestante" placeholder="Enter Remaining Time / Tiempo Restante" required>
         </div>
         
-        <!-- Income Information - Applicant -->
         <div class="section-header">Income Information / Información de Ingresos (Applicant)</div>
         
         <div class="field-group">
@@ -1103,13 +1101,11 @@
             <input type="text" name="OtherSourceofIncome/OtrosIngresos2" class="OtherSourceofIncome/OtrosIngresos2" placeholder="Enter Other Source of Income / Otros Ingresos">
         </div>
         
-        <!-- Disclaimer -->
         <div class="disclaimer">
             Alimony or child support are optional information and does not need to be disclosed if you do not wish for that income to be considered in the credit application.<br><br>
             Pensión alimenticia o manutención de menores son información opcional y no necesita ser revelada si usted no desea que se cuente ese ingreso en la solicitud de crédito.
         </div>
         
-        <!-- Consent Text -->
         <div class="consent-text">
             By signing the document, the applicant gives consent to the company to collect and verify personal and financial information, including credit reports, for the purpose of assessing eligibility for a service or loan. The applicant allows the company to share this information with authorized third parties, such as credit agencies, to complete the verification process. The applicant confirms that the information provided is accurate and understands that false information could lead to rejection of the application.<br><br>
             Al firmar este documento, el solicitante da su consentimiento para que la empresa recoja y verifique información personal y financiera, incluidos los informes de crédito, con el propósito de evaluar la elegibilidad para un servicio o préstamo. El solicitante autoriza a la empresa a compartir esta información con terceros autorizados, como agencias de crédito, para completar el proceso de verificación. El solicitante confirma que la información proporcionada es precisa y entiende que la información falsa podría resultar en el rechazo de la solicitud.
@@ -1165,7 +1161,6 @@ let canvases = {
   mobile: []
 };
 
-// Set Sweet Alert Z-Index globally
 const swalConfig = {
   didOpen: (modal) => {
     modal.style.zIndex = '99999999';
@@ -1369,10 +1364,10 @@ function finalSyncBeforePdf() {
 
   const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
   mobileInputs.forEach(mobileInput => {
-    if (mobileInput.type === "file") return; // Skip file inputs
+    if (mobileInput.type === "file") return; 
     const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
     pcInputs.forEach(pcInput => {
-      if (pcInput.type === "file") return; // Skip file inputs
+      if (pcInput.type === "file") return; 
       if (mobileInput.type === "checkbox") {
         pcInput.checked = mobileInput.checked;
       } else if (mobileInput.type !== "radio") {
@@ -1460,7 +1455,8 @@ function validateRequiredFields() {
 }
 
 async function generatePDF() {
-  const form = document.querySelector(".form-container");
+  const isMobile = window.innerWidth <= 480;
+  const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
 
   if (!form) {
     Swal.fire({
@@ -1550,15 +1546,15 @@ async function handleSubmit() {
   if (!validateRequiredFields()) {
     return;
   }
-
-  const isMobile = window.innerWidth <= 480;
-  const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
+  const form =  document.querySelector(".form-container");
+  const pcForm = document.querySelector(".form-container");
   const fileInput = document.getElementById("files");
+  const mobileFileInput = document.getElementById("files");
 
   Swal.fire({
     icon: 'info',
-    title: 'Sending...',
-    text: '',
+    title: 'Processing...',
+    text: 'Generating PDF and submitting...',
     confirmButtonColor: '#3085d6',
     allowOutsideClick: false,
     didOpen: (modal) => {
@@ -1588,8 +1584,10 @@ async function handleSubmit() {
     formData.append("email", emailField.value);
   }
 
-  if (fileInput?.files.length > 0) {
-    for (let f of fileInput.files) {
+  const pcFileInput = pcForm.querySelector("input[type='file']");
+  if (pcFileInput?.files.length > 0) {
+    console.log("Adding files:", pcFileInput.files.length);
+    for (let f of pcFileInput.files) {
       formData.append("files", f);
     }
   }
