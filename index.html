@@ -1496,9 +1496,14 @@ function validateRequiredFields() {
 }
 
 async function generatePDF() {
-  const pcForm = document.querySelector(".form-container");
+  let formToUse = document.querySelector(".form-container");
+  
+  // If PC form is hidden, try mobile form
+  if (formToUse && formToUse.style.display === 'none') {
+    formToUse = document.querySelector(".form-container1");
+  }
 
-  if (!pcForm) {
+  if (!formToUse) {
     showAlert({
       icon: 'error',
       title: 'Error!',
@@ -1509,62 +1514,77 @@ async function generatePDF() {
   }
 
   try {
-    const originalDisplay = pcForm.style.display;
-    const originalVisibility = pcForm.style.visibility;
+    const originalDisplay = formToUse.style.display;
+    const originalVisibility = formToUse.style.visibility;
+    const originalPosition = formToUse.style.position;
+    const originalLeft = formToUse.style.left;
+    const originalTop = formToUse.style.top;
     
-    pcForm.style.display = 'block';
-    pcForm.style.visibility = 'visible';
-    pcForm.style.position = 'absolute';
-    pcForm.style.left = '-9999px';
-    pcForm.style.top = '0';
+    // Show form off-screen for capturing
+    formToUse.style.display = 'block';
+    formToUse.style.visibility = 'visible';
+    formToUse.style.position = 'fixed';
+    formToUse.style.left = '-9999px';
+    formToUse.style.top = '0';
+    formToUse.style.width = '100%';
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
 
-    const canvas = await html2canvas(pcForm, {
+    const canvas = await html2canvas(formToUse, {
       scale: 2,
       useCORS: true,
       allowTaint: true,
       logging: false,
       backgroundColor: "#ffffff",
-      width: pcForm.scrollWidth,
-      height: pcForm.scrollHeight,
-      windowWidth: pcForm.scrollWidth,
-      windowHeight: pcForm.scrollHeight
+      width: formToUse.scrollWidth || formToUse.clientWidth,
+      height: formToUse.scrollHeight || formToUse.clientHeight,
+      windowWidth: formToUse.scrollWidth || formToUse.clientWidth,
+      windowHeight: formToUse.scrollHeight || formToUse.clientHeight
     });
 
-    pcForm.style.display = originalDisplay;
-    pcForm.style.visibility = originalVisibility;
-    pcForm.style.position = '';
-    pcForm.style.left = '';
-    pcForm.style.top = '';
+    // Restore original styles
+    formToUse.style.display = originalDisplay;
+    formToUse.style.visibility = originalVisibility;
+    formToUse.style.position = originalPosition;
+    formToUse.style.left = originalLeft;
+    formToUse.style.top = originalTop;
+    formToUse.style.width = '';
 
     if (!canvas || canvas.width === 0 || canvas.height === 0) {
       throw new Error("Invalid canvas dimensions");
     }
 
     const imgData = canvas.toDataURL("image/jpeg", 0.95);
-    const pdf = new jsPDF("p", "mm", "a4");
+    const pdf = new jsPDF({
+      orientation: "p",
+      unit: "mm",
+      format: "a4"
+    });
+    
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 2;
 
-    const imgWidth = pageWidth - 4;
+    const imgWidth = pageWidth - (margin * 2);
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     if (!imgHeight || imgHeight <= 0 || !isFinite(imgHeight)) {
       throw new Error("Invalid image dimensions calculated");
     }
 
-    let position = 0;
-    let heightLeft = imgHeight;
+    let yPosition = margin;
+    let heightRemaining = imgHeight;
 
-    pdf.addImage(imgData, "JPEG", 2, position, imgWidth, imgHeight, "", "FAST");
-    heightLeft -= pageHeight;
+    // First page
+    pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight);
+    heightRemaining -= (pageHeight - margin);
 
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
+    // Additional pages
+    while (heightRemaining > 0) {
       pdf.addPage();
-      pdf.addImage(imgData, "JPEG", 2, position, imgWidth, imgHeight, "", "FAST");
-      heightLeft -= pageHeight;
+      yPosition = heightRemaining - imgHeight;
+      pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight);
+      heightRemaining -= pageHeight;
     }
 
     return pdf;
@@ -1586,39 +1606,54 @@ async function handleSubmit() {
   }
 
   const pcForm = document.querySelector(".form-container");
+  const mobileForm = document.querySelector(".form-container1");
   const fileInput = document.getElementById("files");
   const emailInput = document.querySelector("input[name='Email1']");
 
-  if (window.innerWidth <= 480) {
-    finalSyncBeforePdf();
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  }
-
-  const pdf = await generatePDF();
-  if (!pdf) return;
-
-  const pdfBlob = pdf.output("blob");
-
-  const formData = new FormData();
-  formData.append("formPdf", pdfBlob, "form.pdf");
-
-  if (emailInput && emailInput.value) {
-    formData.append("email", emailInput.value);
-  }
-
-  if (fileInput?.files.length > 0) {
-    for (let f of fileInput.files) {
-      formData.append("files", f);
-    }
-  }
-
   try {
+    // Sync data if on mobile
+    if (window.innerWidth <= 480) {
+      finalSyncBeforePdf();
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+
+    const pdf = await generatePDF();
+    if (!pdf) return;
+
+    const pdfBlob = pdf.output("blob");
+    const formData = new FormData();
+    formData.append("formPdf", pdfBlob, "form.pdf");
+
+    // Add email
+    if (emailInput && emailInput.value) {
+      formData.append("email", emailInput.value);
+    }
+
+    // Add files - with error handling
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      try {
+        for (let i = 0; i < fileInput.files.length; i++) {
+          const file = fileInput.files[i];
+          if (file) {
+            formData.append("files", file);
+            console.log(`File added: ${file.name}`);
+          }
+        }
+      } catch (fileErr) {
+        console.warn("File append warning:", fileErr);
+      }
+    }
+
+    console.log("Submitting form...");
     const response = await fetch("https://credtt-application-backend.vercel.app/submit-form", {
       method: "POST",
       body: formData,
     });
-    console.log(response);
+
+    console.log("Response status:", response.status);
     const result = await response.json();
+    console.log("Result:", result);
+
     if (result.success) {
       showAlert({
         icon: 'success',
@@ -1630,7 +1665,7 @@ async function handleSubmit() {
       showAlert({
         icon: 'error',
         title: 'Error!',
-        text: result.message || "Unknown error",
+        text: result.message || "Submission failed",
         confirmButtonText: 'Okay'
       });
     }
@@ -1639,7 +1674,7 @@ async function handleSubmit() {
     showAlert({
       icon: 'error',
       title: 'Error!',
-      text: err.message,
+      text: `Error: ${err.message}`,
       confirmButtonText: 'Okay'
     });
   }
