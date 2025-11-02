@@ -1162,21 +1162,6 @@
   .form-container, .form-container1 {
     z-index: 1 !important;
     position: relative !important;
-    width: 1200px !important;
-    max-width: 1200px !important;
-    min-width: 1200px !important;
-    margin: 0 auto !important;
-    overflow-x: auto !important;
-  }
-  
-  .form-container * {
-    max-width: none !important;
-    width: auto !important;
-  }
-  
-  .form-container1 * {
-    max-width: none !important;
-    width: auto !important;
   }
   
   .swal2-container {
@@ -1512,11 +1497,6 @@ function validateRequiredFields() {
 
 async function generatePDF() {
   let formToUse = document.querySelector(".form-container");
-  
-  // If PC form is hidden, try mobile form
-  if (formToUse && formToUse.style.display === 'none') {
-    formToUse = document.querySelector(".form-container1");
-  }
 
   if (!formToUse) {
     showAlert({
@@ -1534,14 +1514,17 @@ async function generatePDF() {
     const originalPosition = formToUse.style.position;
     const originalLeft = formToUse.style.left;
     const originalTop = formToUse.style.top;
+    const originalWidth = formToUse.style.width;
     
-    // Show form off-screen for capturing
     formToUse.style.display = 'block';
     formToUse.style.visibility = 'visible';
-    formToUse.style.position = 'fixed';
+    formToUse.style.position = 'absolute';
     formToUse.style.left = '-9999px';
     formToUse.style.top = '0';
-    formToUse.style.width = '100%';
+    formToUse.style.width = '1200px';       
+    formToUse.style.maxWidth = '1200px';    
+    formToUse.style.transform = 'scale(1)';
+    formToUse.style.transformOrigin = 'top left';
 
     await new Promise(resolve => setTimeout(resolve, 200));
 
@@ -1551,19 +1534,21 @@ async function generatePDF() {
       allowTaint: true,
       logging: false,
       backgroundColor: "#ffffff",
-      width: formToUse.scrollWidth || formToUse.clientWidth,
-      height: formToUse.scrollHeight || formToUse.clientHeight,
-      windowWidth: formToUse.scrollWidth || formToUse.clientWidth,
-      windowHeight: formToUse.scrollHeight || formToUse.clientHeight
+      width: formToUse.scrollWidth ,
+      height: formToUse.scrollHeight,
+      windowWidth: 1200,
+      windowHeight: formToUse.scrollHeight
     });
 
-    // Restore original styles
     formToUse.style.display = originalDisplay;
     formToUse.style.visibility = originalVisibility;
     formToUse.style.position = originalPosition;
-    formToUse.style.left = originalLeft;
-    formToUse.style.top = originalTop;
-    formToUse.style.width = '';
+    formToUse.style.left = '';
+    formToUse.style.top ='';
+    formToUse.style.width = originalWidth;
+    formToUse.style.maxWidth = '';
+    formToUse.style.transform = '';
+    formToUse.style.transformOrigin = '';
 
     if (!canvas || canvas.width === 0 || canvas.height === 0) {
       throw new Error("Invalid canvas dimensions");
@@ -1578,27 +1563,23 @@ async function generatePDF() {
     
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 2;
-
-    const imgWidth = pageWidth - (margin * 2);
+    const imgWidth = pageWidth;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     if (!imgHeight || imgHeight <= 0 || !isFinite(imgHeight)) {
       throw new Error("Invalid image dimensions calculated");
     }
 
-    let yPosition = margin;
+    let yPosition = 0;
     let heightRemaining = imgHeight;
 
-    // First page
-    pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight);
-    heightRemaining -= (pageHeight - margin);
+    pdf.addImage(imgData, "JPEG", 0, yPosition, imgWidth, imgHeight,"","FAST");
+    heightRemaining -= (pageHeight);
 
-    // Additional pages
     while (heightRemaining > 0) {
       pdf.addPage();
       yPosition = heightRemaining - imgHeight;
-      pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", 0, yPosition, imgWidth, imgHeight,"","FAST");
       heightRemaining -= pageHeight;
     }
 
@@ -1626,7 +1607,6 @@ async function handleSubmit() {
   const emailInput = document.querySelector("input[name='Email1']");
 
   try {
-    // Sync data if on mobile
     if (window.innerWidth <= 480) {
       finalSyncBeforePdf();
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -1639,18 +1619,15 @@ async function handleSubmit() {
     const formData = new FormData();
     formData.append("formPdf", pdfBlob, "form.pdf");
 
-    // Add email
     if (emailInput && emailInput.value) {
       formData.append("email", emailInput.value);
       console.log("Email:", emailInput.value);
     }
 
-    // Add files - check both PC and mobile file inputs
     let filesAdded = 0;
     const mobileFileInput = document.querySelector(".form-container1 #files");
     const pcFileInput = document.querySelector(".form-container #files");
     
-    // Try mobile file input first if on mobile
     let activeFileInput = fileInput;
     if (window.innerWidth <= 480 && mobileFileInput) {
       activeFileInput = mobileFileInput;
