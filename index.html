@@ -1154,19 +1154,19 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-const { jsPDF } = window.jspdf;
-
-let canvases = {
-  pc: [],
-  mobile: []
-};
-
-// Set Sweet Alert Z-Index globally
 const swalConfig = {
   didOpen: (modal) => {
     modal.style.zIndex = '99999999';
     document.querySelector('.swal2-container').style.zIndex = '99999999';
   }
+};
+
+
+const { jsPDF } = window.jspdf;
+
+let canvases = {
+  pc: [],
+  mobile: []
 };
 
 function enableSignature(canvas, isMobile = false) {
@@ -1288,8 +1288,7 @@ function setupFormSync() {
     const inputs = form.querySelectorAll("input[name], textarea[name], select[name]");
     inputs.forEach(inp => {
       const name = inp.name;
-      // Skip file inputs completely
-      if (name && inp.type !== "file") {
+      if (name) {
         if (!fieldsMap[name]) fieldsMap[name] = [];
         fieldsMap[name].push(inp);
       }
@@ -1337,56 +1336,9 @@ function setupFormSync() {
   });
 }
 
-function syncSignatures() {
-  const mobileForm = document.querySelector(".form-container1");
-  const pcForm = document.querySelector(".form-container");
-
-  if (!mobileForm || !pcForm) return;
-
-  const mobileCanvases = Array.from(mobileForm.querySelectorAll("canvas"));
-  const pcCanvases = Array.from(pcForm.querySelectorAll("canvas"));
-
-  mobileCanvases.forEach((mobileCanvas, index) => {
-    const pcCanvas = pcCanvases[index];
-    if (!pcCanvas) return;
-
-    try {
-      const mobileImage = mobileCanvas.toDataURL();
-      const img = new Image();
-      img.onload = () => {
-        const pcCtx = pcCanvas.getContext("2d");
-        pcCtx.clearRect(0, 0, pcCanvas.width, pcCanvas.height);
-        pcCtx.drawImage(img, 0, 0, pcCanvas.width, pcCanvas.height);
-      };
-      img.src = mobileImage;
-    } catch (e) {
-      console.log("Sync error for canvas", index);
-    }
-  });
-}
-
 function finalSyncBeforePdf() {
-  syncSignatures();
-
   const mobileForm = document.querySelector(".form-container1");
   const pcForm = document.querySelector(".form-container");
-
-  if (!mobileForm || !pcForm) return;
-
-  const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
-  mobileInputs.forEach(mobileInput => {
-    if (mobileInput.type === "file") return;
-    const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
-    pcInputs.forEach(pcInput => {
-      if (pcInput.type === "file") return;
-      if (mobileInput.type === "checkbox") {
-        pcInput.checked = mobileInput.checked;
-      } else if (mobileInput.type !== "radio") {
-        pcInput.value = mobileInput.value;
-      }
-    });
-  });
-}
 
   if (!mobileForm || !pcForm) return;
 
@@ -1413,10 +1365,8 @@ function finalSyncBeforePdf() {
 
   const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
   mobileInputs.forEach(mobileInput => {
-    if (mobileInput.type === "file") return; // Skip file inputs
     const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
     pcInputs.forEach(pcInput => {
-      if (pcInput.type === "file") return; // Skip file inputs
       if (mobileInput.type === "checkbox") {
         pcInput.checked = mobileInput.checked;
       } else if (mobileInput.type !== "radio") {
@@ -1424,7 +1374,7 @@ function finalSyncBeforePdf() {
       }
     });
   });
-
+}
 
 function isCanvasEmpty(canvas) {
   const ctx = canvas.getContext("2d");
@@ -1439,26 +1389,22 @@ function isCanvasEmpty(canvas) {
   return true;
 }
 
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
 function validateRequiredFields() {
-  const form = window.innerWidth <= 480 ? document.querySelector(".form-container1") : document.querySelector(".form-container");
-  
-  if (!form) {
+  const pcForm = document.querySelector(".form-container");
+  if (!pcForm) {
     Swal.fire({
-      icon: 'error',
       title: 'Error!',
       text: 'Form not found!',
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      icon: 'error',
+      confirmButtonText: 'Okay',
+      customClass: {
+        container: 'swal-z-index-high'
+      }
     });
     return false;
   }
 
-  const requiredFields = form.querySelectorAll("input[required], textarea[required], select[required]");
+  const requiredFields = pcForm.querySelectorAll("input[required], textarea[required], select[required]");
   let emptyFields = [];
 
   requiredFields.forEach(field => {
@@ -1469,34 +1415,29 @@ function validateRequiredFields() {
     }
   });
 
-  const emailField = form.querySelector("input[name='Email1']");
-  if (emailField && emailField.value && !isValidEmail(emailField.value)) {
-    emptyFields.push("Email (Invalid)");
-  }
-
-  const canvasArray = window.innerWidth <= 480 ? canvases.mobile : canvases.pc;
-
-  if (canvasArray.length >= 1) {
-    const sig1Canvas = canvasArray[0];
+  if (canvases.pc.length >= 1) {
+    const sig1Canvas = canvases.pc[0];
     if (isCanvasEmpty(sig1Canvas)) {
-      emptyFields.push("Applicant Signature");
+      emptyFields.push("Applicant Signature (Required)");
     }
   }
 
-  if (canvasArray.length >= 3) {
-    const sig3Canvas = canvasArray[2];
+  if (canvases.pc.length >= 3) {
+    const sig3Canvas = canvases.pc[2];
     if (isCanvasEmpty(sig3Canvas)) {
-      emptyFields.push("Representative Signature");
+      emptyFields.push("Representative Signature (Required)");
     }
   }
 
   if (emptyFields.length > 0) {
     Swal.fire({
+      title: 'Required Fields Missing!',
+      html: `<div style="text-align: left; font-size: 14px;"><strong>Please fill in the following fields:</strong><br><br>${[...new Set(emptyFields)].map(f => `• ${f}`).join('<br>')}`,
       icon: 'warning',
-      title: 'Empty Fields!',
-      html: `<div style="text-align: left;">${[...new Set(emptyFields)].join("<br>")}</div>`,
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      confirmButtonText: 'Okay',
+      customClass: {
+        container: 'swal-z-index-high'
+      }
     });
     return false;
   }
@@ -1504,127 +1445,50 @@ function validateRequiredFields() {
 }
 
 async function generatePDF() {
-  const form =  document.querySelector(".form-container");
-
-  return generatePDFFromForm(form);
-}
-
-async function handleSubmit() {
-  if (!validateRequiredFields()) {
-    return;
-  }
-
-  const isMobile = window.innerWidth <= 480;
-  const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
   const pcForm = document.querySelector(".form-container");
 
-  if (isMobile) {
-    finalSyncBeforePdf();
-    await new Promise(resolve => setTimeout(resolve, 500));
-  }
-
-  const pdf = await generatePDFFromForm(pcForm);
-  if (!pdf) return;
-
-  const pdfBlob = pdf.output("blob");
-  const formData = new FormData();
-  formData.append("formPdf", pdfBlob, "form.pdf");
-
-  const emailField = form.querySelector("input[name='Email1']");
-  if (emailField && emailField.value) {
-    formData.append("email", emailField.value);
-  }
-
-  const fileInput = document.getElementById("files");
-  if (fileInput && fileInput.files.length > 0) {
-    console.log("Files count:", fileInput.files.length);
-    for (let f of fileInput.files) {
-      console.log("Adding file:", f.name);
-      formData.append("files", f);
-    }
-  }
-
-  try {
-    const response = await fetch("https://credtt-application-backend.vercel.app/submit-form", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    if (result.success) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Form submitted successfully!',
-        confirmButtonColor: '#3085d6',
-        ...swalConfig
-      });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: result.message || 'Something went wrong',
-        confirmButtonColor: '#3085d6',
-        ...swalConfig
-      });
-    }
-  } catch (err) {
-    console.error("Submit error:", err);
+  if (!pcForm) {
     Swal.fire({
-      icon: 'error',
-      title: 'Error!',
-      text: err.message,
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
-    });
-  }
-}
-
-async function generatePDFFromForm(formToPrint) {
-  if (!formToPrint) {
-    Swal.fire({
-      icon: 'error',
       title: 'Error!',
       text: 'Form not found!',
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      icon: 'error',
+      confirmButtonText: 'Okay',
+      customClass: {
+        container: 'swal-z-index-high'
+      }
     });
     return null;
   }
 
   try {
-    const originalDisplay = formToPrint.style.display;
-    const originalVisibility = formToPrint.style.visibility;
+    const originalDisplay = pcForm.style.display;
+    const originalVisibility = pcForm.style.visibility;
     
-    formToPrint.style.display = 'block';
-    formToPrint.style.visibility = 'visible';
-    formToPrint.style.position = 'absolute';
-    formToPrint.style.left = '-9999px';
-    formToPrint.style.top = '0';
+    pcForm.style.display = 'block';
+    pcForm.style.visibility = 'visible';
+    pcForm.style.position = 'absolute';
+    pcForm.style.left = '-9999px';
+    pcForm.style.top = '0';
 
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    const canvas = await html2canvas(formToPrint, {
+    const canvas = await html2canvas(pcForm, {
       scale: 2,
       useCORS: true,
       allowTaint: true,
       logging: false,
       backgroundColor: "#ffffff",
-      width: formToPrint.scrollWidth,
-      height: formToPrint.scrollHeight,
+      width: pcForm.scrollWidth,
+      height: pcForm.scrollHeight,
       windowWidth: 1200,
-      windowHeight: formToPrint.scrollHeight
+      windowHeight: pcForm.scrollHeight
     });
 
-    formToPrint.style.display = originalDisplay;
-    formToPrint.style.visibility = originalVisibility;
-    formToPrint.style.position = '';
-    formToPrint.style.left = '';
-    formToPrint.style.top = '';
+    pcForm.style.display = originalDisplay;
+    pcForm.style.visibility = originalVisibility;
+    pcForm.style.position = '';
+    pcForm.style.left = '';
+    pcForm.style.top = '';
 
     if (!canvas || canvas.width === 0 || canvas.height === 0) {
       throw new Error("Invalid canvas dimensions");
@@ -1659,13 +1523,105 @@ async function generatePDFFromForm(formToPrint) {
   } catch (err) {
     console.error("PDF generation error:", err);
     Swal.fire({
+      title: 'Error!',
+      text: `Error generating PDF: ${err.message}`,
       icon: 'error',
-      title: 'PDF Error!',
-      text: 'Error: ' + err.message,
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      confirmButtonText: 'Okay',
+      customClass: {
+        container: 'swal-z-index-high'
+      }
     });
     return null;
+  }
+}
+
+async function handleSubmit() {
+  if (!validateRequiredFields()) {
+    return;
+  }
+
+  const pcForm = document.querySelector(".form-container");
+  const fileInput = document.getElementById("files");
+  const emailInput = document.querySelector("input[name='email']");
+
+  if (window.innerWidth <= 480) {
+    finalSyncBeforePdf();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
+  const pdf = await generatePDF();
+  if (!pdf) return;
+
+  const pdfBlob = pdf.output("blob");
+  const formData = new FormData();
+  formData.append("formPdf", pdfBlob, "form.pdf");
+
+  if (emailInput && emailInput.value) {
+    formData.append("email", emailInput.value);
+  }
+
+  if (fileInput?.files.length > 0) {
+    for (let f of fileInput.files) {
+      formData.append("files", f);
+    }
+  }
+
+  Swal.fire({
+    title: 'Sending...',
+    text: 'Pleas wait..',
+    icon: 'info',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      Swal.showLoading();
+      document.querySelector('.swal2-container').style.zIndex = '99999';
+    },
+    customClass: {
+      container: 'swal-z-index-high'
+    }
+  });
+
+  try {
+    const response = await fetch("https://credtt-application-backend.vercel.app/submit-form", {
+      method: "POST",
+      body: formData,
+    });
+
+    console.log(response);
+    const result = await response.json();
+
+    if (result.success) {
+      Swal.fire({
+        title: 'Success!',
+        text: 'Form submitted successfully.',
+        icon: 'success',
+        confirmButtonText: 'Okay',
+        customClass: {
+          container: 'swal-z-index-high'
+        }
+      });
+    } else {
+      Swal.fire({
+        title: 'Error!',
+        text: result.message || 'Submission failed.',
+        icon: 'error',
+        confirmButtonText: 'Okay',
+        customClass: {
+          container: 'swal-z-index-high'
+        }
+      });
+    }
+  } catch (err) {
+    console.error("Submit error:", err);
+    Swal.fire({
+      title: 'Error!',
+      text: err.message,
+      icon: 'error',
+      confirmButtonText: 'Okay',
+      customClass: {
+        container: 'swal-z-index-high'
+      }
+    });
   }
 }
 
@@ -1685,19 +1641,22 @@ window.addEventListener("DOMContentLoaded", () => {
 const fileInput = document.getElementById("files");
 if (fileInput) {
   fileInput.addEventListener("change", () => {
+    const fileError = document.getElementById("fileError");
     if (fileInput.files.length > 3) {
       Swal.fire({
+        title: 'Error!',
+        text: 'You can upload a maximum of 3 files.',
         icon: 'warning',
-        title: 'Too Many Files!',
-        text: 'Maximum 3 files allowed!',
-        timer: 2000,
-        confirmButtonColor: '#3085d6',
-        ...swalConfig
+        confirmButtonText: 'Okay',
+        customClass: {
+          container: 'swal-z-index-high'
+        }
       });
       fileInput.value = "";
     }
   });
 }
+
 </script>
 </body>
 </html>
