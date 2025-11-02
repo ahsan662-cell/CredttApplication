@@ -1423,6 +1423,9 @@ function finalSyncBeforePdf() {
     pcInputs.forEach(pcInput => {
       if (mobileInput.type === "checkbox") {
         pcInput.checked = mobileInput.checked;
+      } else if (mobileInput.type === "file") {
+        // Skip file inputs - cannot be set programmatically
+        return;
       } else if (mobileInput.type !== "radio") {
         pcInput.value = mobileInput.value;
       }
@@ -1525,7 +1528,7 @@ async function generatePDF() {
       backgroundColor: "#ffffff",
       width: pcForm.scrollWidth,
       height: pcForm.scrollHeight,
-      windowWidth: 1200,
+      windowWidth: pcForm.scrollWidth,
       windowHeight: pcForm.scrollHeight
     });
 
@@ -1539,12 +1542,12 @@ async function generatePDF() {
       throw new Error("Invalid canvas dimensions");
     }
 
-    const imgData = canvas.toDataURL("image/jpeg", 0.85);
+    const imgData = canvas.toDataURL("image/jpeg", 0.95);
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    const imgWidth = pageWidth;
+    const imgWidth = pageWidth - 4;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     if (!imgHeight || imgHeight <= 0 || !isFinite(imgHeight)) {
@@ -1554,13 +1557,13 @@ async function generatePDF() {
     let position = 0;
     let heightLeft = imgHeight;
 
-    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, "", "FAST");
+    pdf.addImage(imgData, "JPEG", 2, position, imgWidth, imgHeight, "", "FAST");
     heightLeft -= pageHeight;
 
     while (heightLeft > 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
-      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, "", "FAST");
+      pdf.addImage(imgData, "JPEG", 2, position, imgWidth, imgHeight, "", "FAST");
       heightLeft -= pageHeight;
     }
 
