@@ -1311,10 +1311,10 @@ function setupFormSync() {
             if (pcInput.type === "checkbox") pcInput.checked = mobileInput.checked;
           });
         });
-      } else {
+      } else if (mobileInput.type !== "file") {
         mobileInput.addEventListener("input", () => {
           pcFields[fieldName]?.forEach(pcInput => {
-            pcInput.value = mobileInput.value;
+            if (pcInput.type !== "file") pcInput.value = mobileInput.value;
           });
         });
       }
@@ -1329,10 +1329,10 @@ function setupFormSync() {
             if (mobileInput.type === "checkbox") mobileInput.checked = pcInput.checked;
           });
         });
-      } else {
+      } else if (pcInput.type !== "file") {
         pcInput.addEventListener("input", () => {
           mobileFields[fieldName]?.forEach(mobileInput => {
-            mobileInput.value = pcInput.value;
+            if (mobileInput.type !== "file") mobileInput.value = pcInput.value;
           });
         });
       }
@@ -1369,8 +1369,10 @@ function finalSyncBeforePdf() {
 
   const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
   mobileInputs.forEach(mobileInput => {
+    if (mobileInput.type === "file") return; // Skip file inputs
     const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
     pcInputs.forEach(pcInput => {
+      if (pcInput.type === "file") return; // Skip file inputs
       if (mobileInput.type === "checkbox") {
         pcInput.checked = mobileInput.checked;
       } else if (mobileInput.type !== "radio") {
@@ -1458,7 +1460,6 @@ function validateRequiredFields() {
 }
 
 async function generatePDF() {
-  const isMobile = window.innerWidth <= 480;
   const form = document.querySelector(".form-container");
 
   if (!form) {
@@ -1556,8 +1557,8 @@ async function handleSubmit() {
 
   Swal.fire({
     icon: 'info',
-    title: 'Processing...',
-    text: 'Generating PDF and submitting...',
+    title: 'Sending...',
+    text: '',
     confirmButtonColor: '#3085d6',
     allowOutsideClick: false,
     didOpen: (modal) => {
