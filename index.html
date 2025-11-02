@@ -1627,16 +1627,28 @@ async function handleSubmit() {
     // Add email
     if (emailInput && emailInput.value) {
       formData.append("email", emailInput.value);
+      console.log("Email:", emailInput.value);
     }
 
-    // Add files - with error handling
-    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    // Add files - check both PC and mobile file inputs
+    let filesAdded = 0;
+    const mobileFileInput = document.querySelector(".form-container1 #files");
+    const pcFileInput = document.querySelector(".form-container #files");
+    
+    // Try mobile file input first if on mobile
+    let activeFileInput = fileInput;
+    if (window.innerWidth <= 480 && mobileFileInput) {
+      activeFileInput = mobileFileInput;
+    }
+
+    if (activeFileInput && activeFileInput.files && activeFileInput.files.length > 0) {
       try {
-        for (let i = 0; i < fileInput.files.length; i++) {
-          const file = fileInput.files[i];
-          if (file) {
+        for (let i = 0; i < activeFileInput.files.length; i++) {
+          const file = activeFileInput.files[i];
+          if (file && file.size > 0) {
             formData.append("files", file);
-            console.log(`File added: ${file.name}`);
+            filesAdded++;
+            console.log(`File ${i+1} added: ${file.name} (${file.size} bytes)`);
           }
         }
       } catch (fileErr) {
@@ -1644,7 +1656,17 @@ async function handleSubmit() {
       }
     }
 
-    console.log("Submitting form...");
+    console.log(`Total files added: ${filesAdded}`);
+    console.log("FormData entries:", Array.from(formData.entries()));
+    
+    showAlert({
+      icon: 'info',
+      title: 'Submitting...',
+      text: `Sending form with ${filesAdded} file(s)...`,
+      confirmButtonText: 'Okay',
+      didOpen: () => Swal.showLoading()
+    });
+
     const response = await fetch("https://credtt-application-backend.vercel.app/submit-form", {
       method: "POST",
       body: formData,
