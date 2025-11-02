@@ -1398,7 +1398,6 @@ function validateRequiredFields() {
     Swal.fire({
       icon: 'error',
       title: 'Error!',
-      text: 'Form not found!',
       confirmButtonColor: '#3085d6'
     });
     return false;
@@ -1418,20 +1417,20 @@ function validateRequiredFields() {
   // Email validation
   const emailField = pcForm.querySelector("input[name='email']");
   if (emailField && emailField.value && !isValidEmail(emailField.value)) {
-    emptyFields.push("Email غلط ہے!");
+    emptyFields.push("Email!");
   }
 
   if (canvases.pc.length >= 1) {
     const sig1Canvas = canvases.pc[0];
     if (isCanvasEmpty(sig1Canvas)) {
-      emptyFields.push("Applicant Signature (ضروری)");
+      emptyFields.push("Applicant Signature ");
     }
   }
 
   if (canvases.pc.length >= 3) {
     const sig3Canvas = canvases.pc[2];
     if (isCanvasEmpty(sig3Canvas)) {
-      emptyFields.push("Representative Signature (ضروری)");
+      emptyFields.push("Representative Signature ");
     }
   }
 
