@@ -1153,6 +1153,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<style>
+  canvas {
+    z-index: 1 !important;
+    position: relative !important;
+  }
+  
+  .form-container, .form-container1 {
+    z-index: 1 !important;
+    position: relative !important;
+  }
+  
+  .swal2-container {
+    z-index: 999999999 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .swal2-backdrop {
+    z-index: 999999998 !important;
+    position: fixed !important;
+  }
+  
+  .swal2-popup {
+    z-index: 999999999 !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-height: 90vh !important;
+    max-width: 90vw !important;
+  }
+</style>
+
 <script>
 const { jsPDF } = window.jspdf;
 
@@ -1161,11 +1200,27 @@ let canvases = {
   mobile: []
 };
 
-const swalConfig = {
-  didOpen: (modal) => {
-    modal.style.zIndex = '99999999';
-    document.querySelector('.swal2-container').style.zIndex = '99999999';
-  }
+const showAlert = (config) => {
+  return Swal.fire({
+    ...config,
+    zIndex: 999999999,
+    didOpen: (modal) => {
+      const container = document.querySelector('.swal2-container');
+      const backdrop = document.querySelector('.swal2-backdrop');
+      
+      if (container) {
+        container.style.zIndex = '999999999';
+      }
+      if (backdrop) {
+        backdrop.style.zIndex = '999999998';
+      }
+      if (modal) {
+        modal.style.zIndex = '999999999';
+      }
+      
+      if (config.didOpen) config.didOpen(modal);
+    }
+  });
 };
 
 function enableSignature(canvas, isMobile = false) {
@@ -1306,10 +1361,10 @@ function setupFormSync() {
             if (pcInput.type === "checkbox") pcInput.checked = mobileInput.checked;
           });
         });
-      } else if (mobileInput.type !== "file") {
+      } else {
         mobileInput.addEventListener("input", () => {
           pcFields[fieldName]?.forEach(pcInput => {
-            if (pcInput.type !== "file") pcInput.value = mobileInput.value;
+            pcInput.value = mobileInput.value;
           });
         });
       }
@@ -1324,10 +1379,10 @@ function setupFormSync() {
             if (mobileInput.type === "checkbox") mobileInput.checked = pcInput.checked;
           });
         });
-      } else if (pcInput.type !== "file") {
+      } else {
         pcInput.addEventListener("input", () => {
           mobileFields[fieldName]?.forEach(mobileInput => {
-            if (mobileInput.type !== "file") mobileInput.value = pcInput.value;
+            mobileInput.value = pcInput.value;
           });
         });
       }
@@ -1364,10 +1419,8 @@ function finalSyncBeforePdf() {
 
   const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
   mobileInputs.forEach(mobileInput => {
-    if (mobileInput.type === "file") return; // Skip file inputs
-    const pcInputs = pcForm.querySelectorAll([name='${mobileInput.name}']);
+    const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
     pcInputs.forEach(pcInput => {
-      if (pcInput.type === "file") return; // Skip file inputs
       if (mobileInput.type === "checkbox") {
         pcInput.checked = mobileInput.checked;
       } else if (mobileInput.type !== "radio") {
@@ -1390,26 +1443,19 @@ function isCanvasEmpty(canvas) {
   return true;
 }
 
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
 function validateRequiredFields() {
-  const form = window.innerWidth <= 480 ? document.querySelector(".form-container1") : document.querySelector(".form-container");
-  
-  if (!form) {
-    Swal.fire({
+  const pcForm = document.querySelector(".form-container");
+  if (!pcForm) {
+    showAlert({
       icon: 'error',
       title: 'Error!',
       text: 'Form not found!',
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      confirmButtonText: 'Okay'
     });
     return false;
   }
 
-  const requiredFields = form.querySelectorAll("input[required], textarea[required], select[required]");
+  const requiredFields = pcForm.querySelectorAll("input[required], textarea[required], select[required]");
   let emptyFields = [];
 
   requiredFields.forEach(field => {
@@ -1420,34 +1466,26 @@ function validateRequiredFields() {
     }
   });
 
-  const emailField = form.querySelector("input[name='Email1']");
-  if (emailField && emailField.value && !isValidEmail(emailField.value)) {
-    emptyFields.push("Email (Invalid)");
-  }
-
-  const canvasArray = window.innerWidth <= 480 ? canvases.mobile : canvases.pc;
-
-  if (canvasArray.length >= 1) {
-    const sig1Canvas = canvasArray[0];
+  if (canvases.pc.length >= 1) {
+    const sig1Canvas = canvases.pc[0];
     if (isCanvasEmpty(sig1Canvas)) {
-      emptyFields.push("Applicant Signature");
+      emptyFields.push("Applicant Signature (Required)");
     }
   }
 
-  if (canvasArray.length >= 3) {
-    const sig3Canvas = canvasArray[2];
+  if (canvases.pc.length >= 3) {
+    const sig3Canvas = canvases.pc[2];
     if (isCanvasEmpty(sig3Canvas)) {
-      emptyFields.push("Representative Signature");
+      emptyFields.push("Representative Signature (Required)");
     }
   }
 
   if (emptyFields.length > 0) {
-    Swal.fire({
+    showAlert({
       icon: 'warning',
-      title: 'Empty Fields!',
-      html:    `<div style="text-align: left;">${[...new Set(emptyFields)].join("<br>")}</div>`,
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      title: 'Missing Required Fields!',
+      html: `<div style="text-align: left;">${[...new Set(emptyFields)].map(f => `• ${f}`).join('<br>')}</div>`,
+      confirmButtonText: 'Okay'
     });
     return false;
   }
@@ -1455,48 +1493,47 @@ function validateRequiredFields() {
 }
 
 async function generatePDF() {
-  const form = document.querySelector(".form-container");
+  const pcForm = document.querySelector(".form-container");
 
-  if (!form) {
-    Swal.fire({
+  if (!pcForm) {
+    showAlert({
       icon: 'error',
       title: 'Error!',
       text: 'Form not found!',
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      confirmButtonText: 'Okay'
     });
     return null;
   }
 
   try {
-    const originalDisplay = form.style.display;
-    const originalVisibility = form.style.visibility;
+    const originalDisplay = pcForm.style.display;
+    const originalVisibility = pcForm.style.visibility;
     
-    form.style.display = 'block';
-    form.style.visibility = 'visible';
-    form.style.position = 'absolute';
-    form.style.left = '-9999px';
-    form.style.top = '0';
+    pcForm.style.display = 'block';
+    pcForm.style.visibility = 'visible';
+    pcForm.style.position = 'absolute';
+    pcForm.style.left = '-9999px';
+    pcForm.style.top = '0';
 
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    const canvas = await html2canvas(form, {
+    const canvas = await html2canvas(pcForm, {
       scale: 2,
       useCORS: true,
       allowTaint: true,
       logging: false,
       backgroundColor: "#ffffff",
-      width: form.scrollWidth,
-      height: form.scrollHeight,
+      width: pcForm.scrollWidth,
+      height: pcForm.scrollHeight,
       windowWidth: 1200,
-      windowHeight: form.scrollHeight
+      windowHeight: pcForm.scrollHeight
     });
 
-    form.style.display = originalDisplay;
-    form.style.visibility = originalVisibility;
-    form.style.position = '';
-    form.style.left = '';
-    form.style.top = '';
+    pcForm.style.display = originalDisplay;
+    pcForm.style.visibility = originalVisibility;
+    pcForm.style.position = '';
+    pcForm.style.left = '';
+    pcForm.style.top = '';
 
     if (!canvas || canvas.width === 0 || canvas.height === 0) {
       throw new Error("Invalid canvas dimensions");
@@ -1530,12 +1567,11 @@ async function generatePDF() {
     return pdf;
   } catch (err) {
     console.error("PDF generation error:", err);
-    Swal.fire({
+    showAlert({
       icon: 'error',
-      title: 'PDF Error!',
-      text: 'Error: ' + err.message,
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      title: 'Error!',
+      text: `Error generating PDF: ${err.message}`,
+      confirmButtonText: 'Okay'
     });
     return null;
   }
@@ -1546,41 +1582,25 @@ async function handleSubmit() {
     return;
   }
 
-  const isMobile = window.innerWidth <= 480;
-  const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
+  const pcForm = document.querySelector(".form-container");
   const fileInput = document.getElementById("files");
+  const emailInput = document.querySelector("input[name='Email1']");
 
-  Swal.fire({
-    icon: 'info',
-    title: 'Sending...',
-    text: '',
-    confirmButtonColor: '#3085d6',
-    allowOutsideClick: false,
-    didOpen: (modal) => {
-      modal.style.zIndex = '99999999';
-      document.querySelector('.swal2-container').style.zIndex = '99999999';
-      Swal.showLoading();
-    }
-  });
-
-  if (isMobile) {
+  if (window.innerWidth <= 480) {
     finalSyncBeforePdf();
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
   }
 
   const pdf = await generatePDF();
-  if (!pdf) {
-    Swal.close();
-    return;
-  }
+  if (!pdf) return;
 
   const pdfBlob = pdf.output("blob");
+
   const formData = new FormData();
   formData.append("formPdf", pdfBlob, "form.pdf");
 
-  const emailField = form.querySelector("input[name='Email1']");
-  if (emailField && emailField.value) {
-    formData.append("email", emailField.value);
+  if (emailInput && emailInput.value) {
+    formData.append("email", emailInput.value);
   }
 
   if (fileInput?.files.length > 0) {
@@ -1590,46 +1610,34 @@ async function handleSubmit() {
   }
 
   try {
-    console.log("Sending form data...");
     const response = await fetch("https://credtt-application-backend.vercel.app/submit-form", {
       method: "POST",
       body: formData,
     });
-
-    console.log("Response status:", response.status);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
+    console.log(response);
     const result = await response.json();
-    console.log("Result:", result);
-
     if (result.success) {
-      Swal.fire({
+      showAlert({
         icon: 'success',
         title: 'Success!',
         text: 'Form submitted successfully!',
-        confirmButtonColor: '#3085d6',
-        ...swalConfig
+        confirmButtonText: 'Okay'
       });
     } else {
-      Swal.fire({
+      showAlert({
         icon: 'error',
         title: 'Error!',
-        text: result.message || 'Something went wrong',
-        confirmButtonColor: '#3085d6',
-        ...swalConfig
+        text: result.message || "Unknown error",
+        confirmButtonText: 'Okay'
       });
     }
   } catch (err) {
     console.error("Submit error:", err);
-    Swal.fire({
+    showAlert({
       icon: 'error',
       title: 'Error!',
       text: err.message,
-      confirmButtonColor: '#3085d6',
-      ...swalConfig
+      confirmButtonText: 'Okay'
     });
   }
 }
@@ -1645,19 +1653,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (pcBtn) pcBtn.addEventListener("click", handleSubmit);
   if (mobileBtn) mobileBtn.addEventListener("click", handleSubmit);
+
 });
 
 const fileInput = document.getElementById("files");
 if (fileInput) {
   fileInput.addEventListener("change", () => {
+    const fileError = document.getElementById("fileError");
     if (fileInput.files.length > 3) {
-      Swal.fire({
+      showAlert({
         icon: 'warning',
         title: 'Too Many Files!',
-        text: 'Maximum 3 files allowed!',
-        timer: 2000,
-        confirmButtonColor: '#3085d6',
-        ...swalConfig
+        text: 'Maximum 3 files allowed',
+        confirmButtonText: 'Okay'
       });
       fileInput.value = "";
     }
