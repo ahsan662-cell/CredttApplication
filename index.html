@@ -1288,7 +1288,7 @@ function setupFormSync() {
     const inputs = form.querySelectorAll("input[name], textarea[name], select[name]");
     inputs.forEach(inp => {
       const name = inp.name;
-      if (name) {
+      if (name && inp.type !== "file") {
         if (!fieldsMap[name]) fieldsMap[name] = [];
         fieldsMap[name].push(inp);
       }
@@ -1307,10 +1307,10 @@ function setupFormSync() {
             if (pcInput.type === "checkbox") pcInput.checked = mobileInput.checked;
           });
         });
-      } else if (mobileInput.type !== "file") {
+      } else {
         mobileInput.addEventListener("input", () => {
           pcFields[fieldName]?.forEach(pcInput => {
-            if (pcInput.type !== "file") pcInput.value = mobileInput.value;
+            pcInput.value = mobileInput.value;
           });
         });
       }
@@ -1325,10 +1325,10 @@ function setupFormSync() {
             if (mobileInput.type === "checkbox") mobileInput.checked = pcInput.checked;
           });
         });
-      } else if (pcInput.type !== "file") {
+      } else {
         pcInput.addEventListener("input", () => {
           mobileFields[fieldName]?.forEach(mobileInput => {
-            if (mobileInput.type !== "file") mobileInput.value = pcInput.value;
+            mobileInput.value = pcInput.value;
           });
         });
       }
@@ -1339,6 +1339,44 @@ function setupFormSync() {
 function finalSyncBeforePdf() {
   const mobileForm = document.querySelector(".form-container1");
   const pcForm = document.querySelector(".form-container");
+
+  if (!mobileForm || !pcForm) return;
+
+  const mobileCanvases = Array.from(mobileForm.querySelectorAll("canvas"));
+  const pcCanvases = Array.from(pcForm.querySelectorAll("canvas"));
+
+  mobileCanvases.forEach((mobileCanvas, index) => {
+    const pcCanvas = pcCanvases[index];
+    if (!pcCanvas) return;
+
+    try {
+      const mobileImage = mobileCanvas.toDataURL();
+      const img = new Image();
+      img.onload = () => {
+        const pcCtx = pcCanvas.getContext("2d");
+        pcCtx.clearRect(0, 0, pcCanvas.width, pcCanvas.height);
+        pcCtx.drawImage(img, 0, 0, pcCanvas.width, pcCanvas.height);
+      };
+      img.src = mobileImage;
+    } catch (e) {
+      console.log("Final sync error");
+    }
+  });
+
+  const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
+  mobileInputs.forEach(mobileInput => {
+    if (mobileInput.type === "file") return; 
+    const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
+    pcInputs.forEach(pcInput => {
+      if (pcInput.type === "file") return; 
+      if (mobileInput.type === "checkbox") {
+        pcInput.checked = mobileInput.checked;
+      } else if (mobileInput.type !== "radio") {
+        pcInput.value = mobileInput.value;
+      }
+    });
+  });
+}
 
   if (!mobileForm || !pcForm) return;
 
@@ -1376,7 +1414,7 @@ function finalSyncBeforePdf() {
       }
     });
   });
-}
+
 
 function isCanvasEmpty(canvas) {
   const ctx = canvas.getContext("2d");
@@ -1456,7 +1494,8 @@ function validateRequiredFields() {
 }
 
 async function generatePDF() {
-  const form =  document.querySelector(".form-container");
+  const isMobile = window.innerWidth <= 480;
+  const form = isMobile ? document.querySelector(".form-container1") : document.querySelector(".form-container");
 
   if (!form) {
     Swal.fire({
@@ -1568,8 +1607,11 @@ async function handleSubmit() {
     formData.append("email", emailField.value);
   }
 
-  if (fileInput?.files.length > 0) {
+  // Add files from input
+  if (fileInput && fileInput.files.length > 0) {
+    console.log("Files count:", fileInput.files.length);
     for (let f of fileInput.files) {
+      console.log("Adding file:", f.name);
       formData.append("files", f);
     }
   }
