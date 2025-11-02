@@ -1424,7 +1424,6 @@ function finalSyncBeforePdf() {
       if (mobileInput.type === "checkbox") {
         pcInput.checked = mobileInput.checked;
       } else if (mobileInput.type === "file") {
-        // Skip file inputs - cannot be set programmatically
         return;
       } else if (mobileInput.type !== "radio") {
         pcInput.value = mobileInput.value;
@@ -1497,11 +1496,7 @@ function validateRequiredFields() {
 
 async function generatePDF() {
   let formToUse = document.querySelector(".form-container");
-  
-  if (formToUse && formToUse.style.display === 'none') {
-    formToUse = document.querySelector(".form-container1");
-  }
-
+ 
   if (!formToUse) {
     showAlert({
       icon: 'error',
