@@ -1165,6 +1165,14 @@ let canvases = {
   mobile: []
 };
 
+// Set Sweet Alert Z-Index globally
+const swalConfig = {
+  didOpen: (modal) => {
+    modal.style.zIndex = '99999999';
+    document.querySelector('.swal2-container').style.zIndex = '99999999';
+  }
+};
+
 function enableSignature(canvas, isMobile = false) {
   if (!canvas) return;
 
@@ -1399,9 +1407,7 @@ function validateRequiredFields() {
       title: 'Error!',
       text: 'Form not found!',
       confirmButtonColor: '#3085d6',
-      didOpen: (modal) => {
-        modal.style.zIndex = '10000';
-      }
+      ...swalConfig
     });
     return false;
   }
@@ -1444,9 +1450,7 @@ function validateRequiredFields() {
       title: 'Empty Fields!',
       html: `<div style="text-align: left;">${[...new Set(emptyFields)].join("<br>")}</div>`,
       confirmButtonColor: '#3085d6',
-      didOpen: (modal) => {
-        modal.style.zIndex = '10000';
-      }
+      ...swalConfig
     });
     return false;
   }
@@ -1463,9 +1467,7 @@ async function generatePDF() {
       title: 'Error!',
       text: 'Form not found!',
       confirmButtonColor: '#3085d6',
-      didOpen: (modal) => {
-        modal.style.zIndex = '10000';
-      }
+      ...swalConfig
     });
     return null;
   }
@@ -1537,9 +1539,7 @@ async function generatePDF() {
       title: 'PDF Error!',
       text: 'Error: ' + err.message,
       confirmButtonColor: '#3085d6',
-      didOpen: (modal) => {
-        modal.style.zIndex = '10000';
-      }
+      ...swalConfig
     });
     return null;
   }
@@ -1594,9 +1594,7 @@ async function handleSubmit() {
         title: 'Success!',
         text: 'Form submitted successfully!',
         confirmButtonColor: '#3085d6',
-        didOpen: (modal) => {
-          modal.style.zIndex = '10000';
-        }
+        ...swalConfig
       });
     } else {
       Swal.fire({
@@ -1604,9 +1602,7 @@ async function handleSubmit() {
         title: 'Error!',
         text: result.message || 'Something went wrong',
         confirmButtonColor: '#3085d6',
-        didOpen: (modal) => {
-          modal.style.zIndex = '10000';
-        }
+        ...swalConfig
       });
     }
   } catch (err) {
@@ -1616,9 +1612,7 @@ async function handleSubmit() {
       title: 'Error!',
       text: err.message,
       confirmButtonColor: '#3085d6',
-      didOpen: (modal) => {
-        modal.style.zIndex = '10000';
-      }
+      ...swalConfig
     });
   }
 }
@@ -1646,9 +1640,7 @@ if (fileInput) {
         text: 'Maximum 3 files allowed!',
         timer: 2000,
         confirmButtonColor: '#3085d6',
-        didOpen: (modal) => {
-          modal.style.zIndex = '10000';
-        }
+        ...swalConfig
       });
       fileInput.value = "";
     }
