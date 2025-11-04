@@ -117,8 +117,8 @@
         }
 
         .section-header {
-            background: linear-gradient(to right,#0a4bba,#88d2e1);
-            color: white;
+            background: rgb(177, 227, 244);
+            color: black;
             padding: 5px;
             font-weight: bold;
             font-size: 14px;
@@ -180,7 +180,7 @@
         }
 
         .agreement-section {
-            background: #0099cc;
+            background: rgb(177, 227, 244);
             color: white;
             padding: 8px;
             font-size: 7px;
@@ -215,13 +215,16 @@
             display: none;
         }
         #applicant{
-          background:linear-gradient(to right,#376dca,#759de2);
+          background: rgb(177, 227, 244);
+          color: black;
         }
         #coapplicant{
-          background:linear-gradient(to right,#6994de,#a7e3e8);
+          background:rgb(177, 227, 244);
+          color: black;
         }
         .consent-text{
-          background: linear-gradient(to right,#416ebd,#4c85e7);
+          background-color:rgb(177, 227, 244);
+          color: black;
         }
         @media print {
             body {
@@ -241,6 +244,10 @@
       }
       input[type="text"] {
         font-size: 11px;
+      }
+    .consent-text{
+        background-color:rgb(177, 227, 244);
+        color: black;
       }
 
     }
@@ -265,6 +272,7 @@
 
       #savePdf {
         width: 100%;
+        background: rgb(177, 227, 244);
       }
     }
 
@@ -318,8 +326,8 @@
         }
 
         .section-header {
-            background: linear-gradient(to right,#5b81c4,#92b4ed);
-            color: white;
+            background: rgb(177, 227, 244);
+            color: black;
             padding: 10px;
             font-weight: bold;
             font-size: 13px;
@@ -391,8 +399,8 @@
         .consent-text {
             font-size: 9px;
             padding: 10px;
-            background: linear-gradient(to right,#5b81c4,#98b9f3);
-            color: white;
+            background-color: rgb(177, 227, 244);
+            color: black;
             line-height: 1.5;
             margin-top: 20px;
             border-radius: 5px;
@@ -443,8 +451,8 @@
 
         #savePdf1 {
             width: 100%;
-            background: linear-gradient(to right,#416ebd,#92b4ed);
-            color: white;
+            background: rgb(177, 227, 244);
+            color: black;
             padding: 14px;
             border: none;
             border-radius: 5px;
@@ -758,7 +766,7 @@
 
         <table>
             <tr >
-                <td colspan="12" style="font-size: 8px; padding: 5px; background:linear-gradient(to right,#5b81c4,#92dced); color: white;">
+                <td colspan="12" style="font-size: 8px; padding: 5px; background:rgb(177, 227, 244); color: black;">
                     By signing the document, the applicant gives consent to the company to collect and verify personal and financial information, including credit reports, for the purpose of assessing eligibility for a service or loan. The applicant allows the company to share this information with 
                     authorized third parties, such as credit agencies, to complete the verification process. The applicant confirms that the information provided is accurate and understands that false information could lead to rejection of the application.
                     Al firmar este documento, el solicitante da su consentimiento para que la empresa recoja y verifique información personal y financiera, incluidos los informes de crédito, con el propósito de evaluar la elegibilidad para un servicio o préstamo. El solicitante autoriza a la empresa 
@@ -815,7 +823,7 @@
                 <p id="fileError" style="color: red; font-size: 14px;"></p>
             </div>
             <div style="text-align:center; margin-top:15px;">
-                <button id="savePdf" style="background:linear-gradient(to right,#416ebd,#92b4ed); color:white; padding:8px 16px; border:none; border-radius:5px; cursor:pointer; ">Send</button>
+                <button id="savePdf" style="background:lightblue; color:black; padding:8px 16px; border:none; border-radius:5px; cursor:pointer; ">Send</button>
               </div>
         </div>
         </table>
@@ -1290,12 +1298,11 @@ function enableSignature(canvas, isMobile = false) {
     clearBtn.textContent = "Clear Signature";
     clearBtn.type = "button";
     clearBtn.className = "clear-btn";
-    clearBtn.style.marginTop = "5px";
+    clearBtn.style.marginTop = "6px";
     clearBtn.style.padding = "4px 10px";
     clearBtn.style.border = "1px solid #ccc";
-    clearBtn.style.borderRadius = "6px";
     clearBtn.style.cursor = "pointer";
-    clearBtn.style.background = "linear-gradient(to right,#416ebd,#759de2)";
+    clearBtn.style.background = "rgb(177, 227, 244)";
     clearBtn.style.width = "100%";
     clearBtn.onclick = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
