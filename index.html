@@ -1007,8 +1007,8 @@
         </div>
         
         <div class="field-group">
-            <label class="field-label">Remaining Time / Tiempo Restante <span style="color: red;">*</span></label>
-            <input type="text" name="RemainingTime/TiempoRestante" class="RemainingTime/TiempoRestante" placeholder="Enter Remaining Time / Tiempo Restante" required>
+            <label class="field-label">Length of Residence / Tiempo de Residencia  <span style="color: red;">*</span></label>
+            <input type="text" name="LengthofResidence/TiempodeResidencia " class="LengthofResidence/TiempodeResidencia" placeholder="Enter Remaining Time / Tiempo Restante" required>
         </div>
         
         <div class="section-header">Income Information / Información de Ingresos (Applicant)</div>
@@ -1584,7 +1584,7 @@ async function generatePDF() {
       logging: false,
       backgroundColor: "#ffffff",
       width: actualWidth,
-      height: formToUse.scrollHeight,
+      height: formToUse.scrollHeight + 100,
       windowWidth: actualWidth,
       windowHeight: formToUse.scrollHeight
     });
