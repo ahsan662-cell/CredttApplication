@@ -1381,57 +1381,48 @@ function setupFormSync() {
     return fieldsMap;
   };
 
-const mobileFields = getFieldsMap(mobileForm);
-const pcFields = getFieldsMap(pcForm);
+  const mobileFields = getFieldsMap(mobileForm);
+  const pcFields = getFieldsMap(pcForm);
 
-let isSyncing = false; // flag to prevent loop
-
-Object.keys(mobileFields).forEach(fieldName => {
-  mobileFields[fieldName].forEach(mobileInput => {
-    if (mobileInput.type === "checkbox") {
-      mobileInput.addEventListener("change", () => {
-        if (isSyncing) return;
-        isSyncing = true;
-        pcFields[fieldName]?.forEach(pcInput => {
-          if (pcInput.type === "checkbox") {
-            pcInput.checked = mobileInput.checked;
-          }
+  Object.keys(mobileFields).forEach(fieldName => {
+    mobileFields[fieldName].forEach(mobileInput => {
+      if (mobileInput.type === "checkbox") {
+        mobileInput.addEventListener("change", () => {
+          pcFields[fieldName]?.forEach(pcInput => {
+            if (pcInput.type === "checkbox") {
+              pcInput.checked = mobileInput.checked;
+              pcInput.dispatchEvent(new Event('change'));}
+          });
         });
-        isSyncing = false;
-      });
-    } else {
-      mobileInput.addEventListener("input", () => {
-        pcFields[fieldName]?.forEach(pcInput => {
-          pcInput.value = mobileInput.value;
+      } else {
+        mobileInput.addEventListener("input", () => {
+          pcFields[fieldName]?.forEach(pcInput => {
+            pcInput.value = mobileInput.value;
+          });
         });
-      });
-    }
+      }
+    });
   });
-});
+
+  Object.keys(pcFields).forEach(fieldName => {
+    pcFields[fieldName].forEach(pcInput => {
+      if (pcInput.type === "checkbox") {
+        pcInput.addEventListener("change", () => {
+          mobileFields[fieldName]?.forEach(mobileInput => {
+            if (mobileInput.type === "checkbox") 
+              mobileInput.checked = pcInput.checked;
+          });
+        });
+      } else {
+        pcInput.addEventListener("input", () => {
+          mobileFields[fieldName]?.forEach(mobileInput => {
+            mobileInput.value = pcInput.value;
+          });
+        });
+      }
+    });
+  });
 }
-Object.keys(pcFields).forEach(fieldName => {
-  pcFields[fieldName].forEach(pcInput => {
-    if (pcInput.type === "checkbox") {
-      pcInput.addEventListener("change", () => {
-        if (isSyncing) return;
-        isSyncing = true;
-        mobileFields[fieldName]?.forEach(mobileInput => {
-          if (mobileInput.type === "checkbox") {
-            mobileInput.checked = pcInput.checked;
-          }
-        });
-        isSyncing = false;
-      });
-    } else {
-      pcInput.addEventListener("input", () => {
-        mobileFields[fieldName]?.forEach(mobileInput => {
-          mobileInput.value = pcInput.value;
-        });
-      });
-    }
-  });
-});
-
 
 function finalSyncBeforePdf() {
   const mobileForm = document.querySelector(".form-container1");
