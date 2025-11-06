@@ -1610,7 +1610,7 @@ async function generatePDF() {
       format: "a4"
     });
     
-    const margin = 5; 
+    const margin = 12; 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const imgWidth = pageWidth - (margin * 2);
@@ -1623,13 +1623,13 @@ async function generatePDF() {
     let heightRemaining = imgHeight;
 
     pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight,"","FAST");
-    heightRemaining -= (pageHeight - margin * 1);
+    heightRemaining -= (pageHeight - margin * 2);
 
     while (heightRemaining > 0) {
       pdf.addPage();
       yPosition = heightRemaining - imgHeight;
       pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight,"","FAST");
-      heightRemaining -= (pageHeight - margin * 1);
+      heightRemaining -= (pageHeight - margin * 2);
     }
     originalDates.forEach(({ input, val }) => {
       input.type = "date";
