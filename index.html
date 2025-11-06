@@ -1513,10 +1513,26 @@ function validateRequiredFields() {
     }
   }
 
-  const fileInput = document.getElementById("files");
-  if (!fileInput || fileInput.files.length === 0) {
+  const pcFileInput = pcForm.querySelector("#files");
+  const mobileFileInput = mobileForm ? mobileForm.querySelector("#files") : null;
+  
+  let filesSelected = false;
+  
+  if (pcFileInput && pcFileInput.files && pcFileInput.files.length > 0) {
+    filesSelected = true;
+    console.log(`✅ PC files found: ${pcFileInput.files.length}`);
+  }
+  
+  if (mobileFileInput && mobileFileInput.files && mobileFileInput.files.length > 0) {
+    filesSelected = true;
+    console.log(`✅ Mobile files found: ${mobileFileInput.files.length}`);
+  }
+  
+  if (!filesSelected) {
+    console.log("❌ No files selected in either form");
     emptyFields.push("At least one Photo ID upload is required");
   }
+
 
   if (emptyFields.length > 0) {
     showAlert({
