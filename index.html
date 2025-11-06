@@ -1389,7 +1389,9 @@ function setupFormSync() {
       if (mobileInput.type === "checkbox") {
         mobileInput.addEventListener("change", () => {
           pcFields[fieldName]?.forEach(pcInput => {
-            if (pcInput.type === "checkbox") pcInput.checked = mobileInput.checked;
+            if (pcInput.type === "checkbox") {
+              pcInput.checked = mobileInput.checked;
+              pcInput.dispatchEvent(new Event('change'));}
           });
         });
       } else {
@@ -1407,7 +1409,10 @@ function setupFormSync() {
       if (pcInput.type === "checkbox") {
         pcInput.addEventListener("change", () => {
           mobileFields[fieldName]?.forEach(mobileInput => {
-            if (mobileInput.type === "checkbox") mobileInput.checked = pcInput.checked;
+            if (mobileInput.type === "checkbox") {
+              mobileInput.checked = pcInput.checked;
+              mobileInput.dispatchEvent(new Event('change'));
+            }
           });
         });
       } else {
