@@ -1610,26 +1610,26 @@ async function generatePDF() {
       format: "a4"
     });
     
+    const margin = 10; 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgWidth = pageWidth;
+    const imgWidth = pageWidth - (margin * 2);
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     if (!imgHeight || imgHeight <= 0 || !isFinite(imgHeight)) {
       throw new Error("Invalid image dimensions calculated");
     }
-
-    let yPosition = 0;
+    let yPosition = margin;
     let heightRemaining = imgHeight;
 
-    pdf.addImage(imgData, "JPEG", 0, yPosition, imgWidth, imgHeight,"","FAST");
-    heightRemaining -= (pageHeight);
+    pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight,"","FAST");
+    heightRemaining -= (pageHeight - margin * 2);
 
     while (heightRemaining > 0) {
       pdf.addPage();
       yPosition = heightRemaining - imgHeight;
-      pdf.addImage(imgData, "JPEG", 0, yPosition, imgWidth, imgHeight,"","FAST");
-      heightRemaining -= pageHeight;
+      pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight,"","FAST");
+      heightRemaining -= (pageHeight - margin * 2);
     }
     originalDates.forEach(({ input, val }) => {
       input.type = "date";
