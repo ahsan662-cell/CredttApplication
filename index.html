@@ -1623,13 +1623,13 @@ async function generatePDF() {
     let heightRemaining = imgHeight;
 
     pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight,"","FAST");
-    heightRemaining -= (pageHeight - margin * 2);
+    heightRemaining -= (pageHeight - margin * 1);
 
     while (heightRemaining > 0) {
       pdf.addPage();
       yPosition = heightRemaining - imgHeight;
       pdf.addImage(imgData, "JPEG", margin, yPosition, imgWidth, imgHeight,"","FAST");
-      heightRemaining -= (pageHeight - margin * 2);
+      heightRemaining -= (pageHeight - margin * 1);
     }
     originalDates.forEach(({ input, val }) => {
       input.type = "date";
