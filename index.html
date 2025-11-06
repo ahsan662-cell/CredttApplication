@@ -1008,7 +1008,7 @@
         
         <div class="field-group">
             <label class="field-label">Length of Residence / Tiempo de Residencia  <span style="color: red;">*</span></label>
-            <input type="text" name="LengthofResidence/TiempodeResidencia " class="LengthofResidence/TiempodeResidencia" placeholder="Enter Remaining Time / Tiempo Restante" required>
+            <input type="text" name="LengthofResidence/TiempodeResidencia" class="LengthofResidence/TiempodeResidencia" placeholder="Enter Remaining Time / Tiempo Restante" required>
         </div>
         
         <div class="section-header">Income Information / Información de Ingresos (Applicant)</div>
@@ -1448,7 +1448,7 @@ function finalSyncBeforePdf() {
     }
   });
 
-  const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name]");
+  const mobileInputs = mobileForm.querySelectorAll("input[name], textarea[name] select[required]");
   mobileInputs.forEach(mobileInput => {
     const pcInputs = pcForm.querySelectorAll(`[name='${mobileInput.name}']`);
     pcInputs.forEach(pcInput => {
@@ -1679,27 +1679,35 @@ async function handleSubmit() {
     let filesAdded = 0;
     const mobileFileInput = document.querySelector(".form-container1 #files");
     const pcFileInput = document.querySelector(".form-container #files");
-    
-    let activeFileInput = fileInput;
-    if (window.innerWidth <= 480 && mobileFileInput) {
-      activeFileInput = mobileFileInput;
-    }
-
-    if (activeFileInput && activeFileInput.files && activeFileInput.files.length > 0) {
+    if (pcFileInput && pcFileInput.files && pcFileInput.files.length > 0) {
       try {
-        for (let i = 0; i < activeFileInput.files.length; i++) {
-          const file = activeFileInput.files[i];
+        for (let i = 0; i < pcFileInput.files.length; i++) {
+          const file = pcFileInput.files[i];
           if (file && file.size > 0) {
             formData.append("files", file);
             filesAdded++;
-            console.log(`File ${i+1} added: ${file.name} (${file.size} bytes)`);
+            console.log(`PC File ${i+1} added: ${file.name} (${file.size} bytes)`);
           }
         }
       } catch (fileErr) {
-        console.warn("File append warning:", fileErr);
+        console.warn("PC file append warning:", fileErr);
       }
     }
-
+    
+    if (mobileFileInput && mobileFileInput.files && mobileFileInput.files.length > 0 && filesAdded === 0) {
+      try {
+        for (let i = 0; i < mobileFileInput.files.length; i++) {
+          const file = mobileFileInput.files[i];
+          if (file && file.size > 0) {
+            formData.append("files", file);
+            filesAdded++;
+            console.log(`Mobile File ${i+1} added: ${file.name} (${file.size} bytes)`);
+          }
+        }
+      } catch (fileErr) {
+        console.warn("Mobile file append warning:", fileErr);
+      }
+    }
     console.log(`Total files added: ${filesAdded}`);
     console.log("FormData entries:", Array.from(formData.entries()));
     
