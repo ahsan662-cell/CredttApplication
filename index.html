@@ -1381,50 +1381,57 @@ function setupFormSync() {
     return fieldsMap;
   };
 
-  const mobileFields = getFieldsMap(mobileForm);
-  const pcFields = getFieldsMap(pcForm);
+const mobileFields = getFieldsMap(mobileForm);
+const pcFields = getFieldsMap(pcForm);
 
-  Object.keys(mobileFields).forEach(fieldName => {
-    mobileFields[fieldName].forEach(mobileInput => {
-      if (mobileInput.type === "checkbox") {
-        mobileInput.addEventListener("change", () => {
-          pcFields[fieldName]?.forEach(pcInput => {
-            if (pcInput.type === "checkbox") {
-              pcInput.checked = mobileInput.checked;
-              pcInput.dispatchEvent(new Event('change'));}
-          });
-        });
-      } else {
-        mobileInput.addEventListener("input", () => {
-          pcFields[fieldName]?.forEach(pcInput => {
-            pcInput.value = mobileInput.value;
-          });
-        });
-      }
-    });
-  });
+let isSyncing = false; // flag to prevent loop
 
-  Object.keys(pcFields).forEach(fieldName => {
-    pcFields[fieldName].forEach(pcInput => {
-      if (pcInput.type === "checkbox") {
-        pcInput.addEventListener("change", () => {
-          mobileFields[fieldName]?.forEach(mobileInput => {
-            if (mobileInput.type === "checkbox") {
-              mobileInput.checked = pcInput.checked;
-              mobileInput.dispatchEvent(new Event('change'));
-            }
-          });
+Object.keys(mobileFields).forEach(fieldName => {
+  mobileFields[fieldName].forEach(mobileInput => {
+    if (mobileInput.type === "checkbox") {
+      mobileInput.addEventListener("change", () => {
+        if (isSyncing) return;
+        isSyncing = true;
+        pcFields[fieldName]?.forEach(pcInput => {
+          if (pcInput.type === "checkbox") {
+            pcInput.checked = mobileInput.checked;
+          }
         });
-      } else {
-        pcInput.addEventListener("input", () => {
-          mobileFields[fieldName]?.forEach(mobileInput => {
-            mobileInput.value = pcInput.value;
-          });
+        isSyncing = false;
+      });
+    } else {
+      mobileInput.addEventListener("input", () => {
+        pcFields[fieldName]?.forEach(pcInput => {
+          pcInput.value = mobileInput.value;
         });
-      }
-    });
+      });
+    }
   });
-}
+});
+
+Object.keys(pcFields).forEach(fieldName => {
+  pcFields[fieldName].forEach(pcInput => {
+    if (pcInput.type === "checkbox") {
+      pcInput.addEventListener("change", () => {
+        if (isSyncing) return;
+        isSyncing = true;
+        mobileFields[fieldName]?.forEach(mobileInput => {
+          if (mobileInput.type === "checkbox") {
+            mobileInput.checked = pcInput.checked;
+          }
+        });
+        isSyncing = false;
+      });
+    } else {
+      pcInput.addEventListener("input", () => {
+        mobileFields[fieldName]?.forEach(mobileInput => {
+          mobileInput.value = pcInput.value;
+        });
+      });
+    }
+  });
+});
+
 
 function finalSyncBeforePdf() {
   const mobileForm = document.querySelector(".form-container1");
