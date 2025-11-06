@@ -1555,6 +1555,9 @@ async function generatePDF() {
       }
     });
 
+    const actualWidth = Math.max(formToUse.scrollWidth, 1500);
+    console.log("Actual form width:", actualWidth);
+
     const originalDisplay = formToUse.style.display;
     const originalVisibility = formToUse.style.visibility;
     const originalPosition = formToUse.style.position;
@@ -1567,8 +1570,8 @@ async function generatePDF() {
     formToUse.style.position = 'absolute';
     formToUse.style.left = '-9999px';
     formToUse.style.top = '0';
-    formToUse.style.width = '1300px';       
-    formToUse.style.maxWidth = '1300px';    
+    formToUse.style.width = actualWidth + 'px';       
+    formToUse.style.maxWidth = actualWidth + 'px';    
     formToUse.style.transform = 'scale(1)';
     formToUse.style.transformOrigin = 'top left';
 
@@ -1580,9 +1583,9 @@ async function generatePDF() {
       allowTaint: true,
       logging: false,
       backgroundColor: "#ffffff",
-      width: formToUse.scrollWidth ,
+      width: actualWidth,
       height: formToUse.scrollHeight,
-      windowWidth: 1300,
+      windowWidth: actualWidth,
       windowHeight: formToUse.scrollHeight
     });
 
